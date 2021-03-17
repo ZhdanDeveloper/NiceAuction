@@ -5,7 +5,8 @@ using System.Text;
 
 namespace DAL.Entities
 {
-    public class LotCategory
+   
+    public class AuctionCategory
     {
         [Key]
         public int Id { get; set; }

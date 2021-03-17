@@ -22,5 +22,6 @@ namespace DAL.Entities
         public DateTime FinishDate { get; set; }
         public string UserId { get; set; }
         public User User { get; set; }
+        public ICollection<AuctionCategory> AuctionCategories { get; set; }
     }
 }

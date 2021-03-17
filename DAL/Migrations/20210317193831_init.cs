@@ -195,6 +195,32 @@ namespace DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AuctionCategory",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CategoryId = table.Column<int>(type: "int", nullable: false),
+                    AuctionId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AuctionCategory", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AuctionCategory_Auctions_AuctionId",
+                        column: x => x.AuctionId,
+                        principalTable: "Auctions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AuctionCategory_Categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Bids",
                 columns: table => new
                 {
@@ -218,32 +244,6 @@ namespace DAL.Migrations
                         name: "FK_Bids_Auctions_AuctionId",
                         column: x => x.AuctionId,
                         principalTable: "Auctions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "LotsCategories",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CategoryId = table.Column<int>(type: "int", nullable: false),
-                    AuctionId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_LotsCategories", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_LotsCategories_Auctions_AuctionId",
-                        column: x => x.AuctionId,
-                        principalTable: "Auctions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_LotsCategories_Categories_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -288,6 +288,16 @@ namespace DAL.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AuctionCategory_AuctionId",
+                table: "AuctionCategory",
+                column: "AuctionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AuctionCategory_CategoryId",
+                table: "AuctionCategory",
+                column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Auctions_UserId",
                 table: "Auctions",
                 column: "UserId");
@@ -301,16 +311,6 @@ namespace DAL.Migrations
                 name: "IX_Bids_UserId",
                 table: "Bids",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_LotsCategories_AuctionId",
-                table: "LotsCategories",
-                column: "AuctionId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_LotsCategories_CategoryId",
-                table: "LotsCategories",
-                column: "CategoryId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -331,19 +331,19 @@ namespace DAL.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Bids");
+                name: "AuctionCategory");
 
             migrationBuilder.DropTable(
-                name: "LotsCategories");
+                name: "Bids");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Auctions");
+                name: "Categories");
 
             migrationBuilder.DropTable(
-                name: "Categories");
+                name: "Auctions");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

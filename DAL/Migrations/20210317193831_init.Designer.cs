@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(NiceAuctionContext))]
-    [Migration("20210317190808_init")]
+    [Migration("20210317193831_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -59,6 +59,28 @@ namespace DAL.Migrations
                     b.ToTable("Auctions");
                 });
 
+            modelBuilder.Entity("DAL.Entities.AuctionCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AuctionId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuctionId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("AuctionCategory");
+                });
+
             modelBuilder.Entity("DAL.Entities.Bid", b =>
                 {
                     b.Property<int>("Id")
@@ -102,28 +124,6 @@ namespace DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
-                });
-
-            modelBuilder.Entity("DAL.Entities.LotCategory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("AuctionId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AuctionId");
-
-                    b.HasIndex("CategoryId");
-
-                    b.ToTable("LotsCategories");
                 });
 
             modelBuilder.Entity("DAL.Entities.User", b =>
@@ -349,6 +349,25 @@ namespace DAL.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("DAL.Entities.AuctionCategory", b =>
+                {
+                    b.HasOne("DAL.Entities.Auction", "Auction")
+                        .WithMany("AuctionCategories")
+                        .HasForeignKey("AuctionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DAL.Entities.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Auction");
+
+                    b.Navigation("Category");
+                });
+
             modelBuilder.Entity("DAL.Entities.Bid", b =>
                 {
                     b.HasOne("DAL.Entities.Auction", "Auction")
@@ -364,25 +383,6 @@ namespace DAL.Migrations
                     b.Navigation("Auction");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("DAL.Entities.LotCategory", b =>
-                {
-                    b.HasOne("DAL.Entities.Auction", "Auction")
-                        .WithMany()
-                        .HasForeignKey("AuctionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DAL.Entities.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Auction");
-
-                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -434,6 +434,11 @@ namespace DAL.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("DAL.Entities.Auction", b =>
+                {
+                    b.Navigation("AuctionCategories");
                 });
 #pragma warning restore 612, 618
         }

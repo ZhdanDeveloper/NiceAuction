@@ -13,7 +13,7 @@ namespace DAL
         public DbSet<Auction> Auctions { get; set; }
         public DbSet<Bid> Bids { get; set; }
         public DbSet<Category> Categories { get; set; }
-        public DbSet<LotCategory> LotsCategories { get; set; }
+     
 
 
         public NiceAuctionContext(DbContextOptions<NiceAuctionContext> options) : base(options)
