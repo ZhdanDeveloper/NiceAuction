@@ -13,7 +13,7 @@ namespace DAL.Entities
         [Column(TypeName = "decimal(8,2)"), Required]
         public decimal BidValue { get; set; }
         public DateTime CreatedAt { get; set; }
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public int AuctionId { get; set; }
         public User User { get; set; }
         public Auction Auction { get; set; }

@@ -20,8 +20,7 @@ namespace DAL.Entities
         public DateTime StartDate { get; set; }
         [Required]
         public DateTime FinishDate { get; set; }
-        [Column("OwnerId")]
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public User User { get; set; }
     }
 }
