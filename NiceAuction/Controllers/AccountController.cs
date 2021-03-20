@@ -34,7 +34,7 @@ namespace NiceAuction.Controllers
 
 
         [HttpPost("Create")]
-        public async Task<ActionResult<TokenDTO>> CreateUser([FromBody] UserDTO userModel)
+        public async Task<ActionResult<TokenDTO>> CreateUser([FromBody] UserDTO userModel) 
         {
             var user = new User { UserName = userModel.UserName, Email = userModel.Email, FirstName = userModel.FirstName, LastName = userModel.LastName, Balance = 0, Phone = userModel.Phone };
             var result = await _userManager.CreateAsync(user, userModel.Password);

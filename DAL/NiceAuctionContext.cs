@@ -10,8 +10,8 @@ namespace DAL
     public class NiceAuctionContext : IdentityDbContext<User>
     {
 
-        public DbSet<Auction> Auctions { get; set; }
-        public DbSet<Bid> Bids { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Order> Orders { get; set; }
         public DbSet<Category> Categories { get; set; }
      
 

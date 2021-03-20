@@ -12,9 +12,9 @@ namespace BLL
     {
         public AutomapperProfile()
         {
-            CreateMap<Auction, AuctionDTO>()
-              .ForMember(p => p.CategoriesIds, c => c.MapFrom(x => x.AuctionCategories.Select(i => i.CategoryId)))
-              .ForMember(p => p.BidsIds, c => c.MapFrom(x => x.Bids.Select(b => b.Id)))
+            CreateMap<Product, ProductDTO>()
+              .ForMember(p => p.CategoriesIds, c => c.MapFrom(x => x.ProductCategories.Select(i => i.CategoryId)))
+              .ForMember(p => p.BidsIds, c => c.MapFrom(x => x.Orders.Select(b => b.Id)))
               .ForMember(p => p.Photo, opt => opt.Ignore())
               .ReverseMap();
 

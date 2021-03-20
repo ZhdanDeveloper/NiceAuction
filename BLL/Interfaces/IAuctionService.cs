@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BLL.Interfaces
 {
-    public interface IAuctionService : ICrud<AuctionDTO>
+    public interface IAuctionService : ICrud<ProductDTO>
     {
     }
 }

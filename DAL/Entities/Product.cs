@@ -6,7 +6,7 @@ using System.Text;
 
 namespace DAL.Entities
 {
-    public class Auction
+    public class Product
     {
         [Key]
         public int Id { get; set; }
@@ -16,14 +16,11 @@ namespace DAL.Entities
         public string Description { get; set; }
         public string PhotoPath { get; set; }
         [Column(TypeName = "decimal(8,2)"), Required]
-        public decimal StartBid { get; set; }
-        public DateTime StartDate { get; set; }
-        [Required]
-        public DateTime FinishDate { get; set; }
+        public decimal Price { get; set; }
         public string UserId { get; set; }
         public User User { get; set; }
-        public ICollection<AuctionCategory> AuctionCategories { get; set; }
-        public ICollection<Bid> Bids { get; set; }
+        public ICollection<ProductCategory> ProductCategories { get; set; }
+        public ICollection<Order> Orders { get; set; }
 
     }
 }

@@ -6,16 +6,16 @@ using System.Text;
 
 namespace DAL.Entities
 {
-    public class Bid
+    public class Order
     {
         [Key]
         public int Id { get; set; }
         [Column(TypeName = "decimal(8,2)"), Required]
-        public decimal BidValue { get; set; }
+        public decimal OrderValue { get; set; }
         public DateTime CreatedAt { get; set; }
         public string UserId { get; set; }
         public int AuctionId { get; set; }
         public User User { get; set; }
-        public Auction Auction { get; set; }
+        public Product Auction { get; set; }
     }
 }

@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace DAL.Interfaces
 {
-    interface IBidRepository : IRepository<Bid>
+    interface IOrderRepository : IRepository<Order>
     {
-        Task<Bid> GetByIdWithDetailsAsync(int id);
-        IQueryable<Bid> FindAllWithDetails();
+        Task<Order> GetByIdWithDetailsAsync(int id);
+        IQueryable<Order> FindAllWithDetails();
     }
 }

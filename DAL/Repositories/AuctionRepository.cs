@@ -9,18 +9,18 @@ using System.Threading.Tasks;
 
 namespace DAL.Repositories
 {
-    public class AuctionRepository : Repository<Auction>, IAuctionRepository
+    public class AuctionRepository : Repository<Product>, IProductRepository
     {
         public AuctionRepository(NiceAuctionContext context) : base(context) { }
 
-        public IQueryable<Auction> FindAllWithDetails()
+        public IQueryable<Product> FindAllWithDetails()
         {
-            return _context.Auctions.Include(x => x.Bids).Include(x => x.AuctionCategories).Include(x=>x.User);
+            return _context.Products.Include(x => x.Orders).Include(x => x.ProductCategories).Include(x=>x.User);
         }
 
-        public Task<Auction> GetByIdWithDetailsAsync(int id)
+        public Task<Product> GetByIdWithDetailsAsync(int id)
         {
-            return _context.Auctions.Include(x => x.Bids).Include(x => x.AuctionCategories).Include(x => x.User).FirstOrDefaultAsync(x=>x.Id == id);
+            return _context.Products.Include(x => x.Orders).Include(x => x.ProductCategories).Include(x => x.User).FirstOrDefaultAsync(x=>x.Id == id);
         }
     }
 }

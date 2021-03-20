@@ -12,20 +12,20 @@ namespace BLL.Services
 {
     public class AuctionService : IAuctionService
     {
-        private readonly IAuctionRepository _auctionRepository;
+        private readonly IProductRepository _auctionRepository;
         private readonly IMapper _mapper;
 
-        public AuctionService(IAuctionRepository auctionRepository, IMapper mapper)
+        public AuctionService(IProductRepository auctionRepository, IMapper mapper)
         {
             _auctionRepository = auctionRepository;
             _mapper = mapper;
         }
 
-        public async Task AddAsync(AuctionDTO model)
+        public async Task AddAsync(ProductDTO model)
         {
 
        
-            await _auctionRepository.AddAsync(_mapper.Map<Auction>(model));
+            await _auctionRepository.AddAsync(_mapper.Map<Product>(model));
             _auctionRepository.Save();
         }
 
@@ -34,17 +34,17 @@ namespace BLL.Services
             throw new NotImplementedException();
         }
 
-        public IEnumerable<AuctionDTO> GetAll()
+        public IEnumerable<ProductDTO> GetAll()
         {
             throw new NotImplementedException();
         }
 
-        public Task<AuctionDTO> GetByIdAsync(int id)
+        public Task<ProductDTO> GetByIdAsync(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task UpdateAsync(AuctionDTO model)
+        public Task UpdateAsync(ProductDTO model)
         {
             throw new NotImplementedException();
         }

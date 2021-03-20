@@ -92,7 +92,7 @@ namespace NiceAuction
 
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddTransient<IAuctionService, AuctionService>();
-            services.AddTransient<IAuctionRepository, AuctionRepository>();
+            services.AddTransient<IProductRepository, AuctionRepository>();
 
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
