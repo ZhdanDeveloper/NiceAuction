@@ -16,6 +16,10 @@ using DAL.Entities;
 using Microsoft.AspNetCore.Identity;
 using BLL.Interfaces;
 using BLL.Services;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace NiceAuction
 {
@@ -36,14 +40,27 @@ namespace NiceAuction
 
             services.AddTransient<IAuctionService, AuctionService>();
 
-
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(opt=>
+                opt.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(
+                      Encoding.UTF8.GetBytes(Configuration["jwt:key"])),
+                    ClockSkew = TimeSpan.Zero
+                }
+              );
 
             services.AddControllers();
             services.AddDbContext<NiceAuctionContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<User, IdentityRole>()
-                .AddEntityFrameworkStores<NiceAuctionContext>();
+                .AddEntityFrameworkStores<NiceAuctionContext>()
+                .AddDefaultTokenProviders();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -57,6 +74,8 @@ namespace NiceAuction
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
