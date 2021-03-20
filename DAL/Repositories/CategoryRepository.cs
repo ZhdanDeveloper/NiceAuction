@@ -8,7 +8,7 @@ namespace DAL.Repositories
 {
     public class CategoryRepository : Repository<Category>, ICategoryRepository
     {
-        public AuctionRepository(NiceAuctionContext context) : base(context) { }
+        public CategoryRepository(NiceAuctionContext context) : base(context) { }
 
     }
 }
