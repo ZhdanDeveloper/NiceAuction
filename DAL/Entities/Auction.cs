@@ -23,5 +23,7 @@ namespace DAL.Entities
         public string UserId { get; set; }
         public User User { get; set; }
         public ICollection<AuctionCategory> AuctionCategories { get; set; }
+        public ICollection<Bid> Bids { get; set; }
+
     }
 }
