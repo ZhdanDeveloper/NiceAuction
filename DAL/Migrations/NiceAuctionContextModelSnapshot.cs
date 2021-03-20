@@ -369,7 +369,7 @@ namespace DAL.Migrations
             modelBuilder.Entity("DAL.Entities.Bid", b =>
                 {
                     b.HasOne("DAL.Entities.Auction", "Auction")
-                        .WithMany()
+                        .WithMany("Bids")
                         .HasForeignKey("AuctionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -437,6 +437,8 @@ namespace DAL.Migrations
             modelBuilder.Entity("DAL.Entities.Auction", b =>
                 {
                     b.Navigation("AuctionCategories");
+
+                    b.Navigation("Bids");
                 });
 #pragma warning restore 612, 618
         }
