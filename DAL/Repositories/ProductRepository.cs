@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace DAL.Repositories
 {
-    public class AuctionRepository : Repository<Product>, IProductRepository
+    public class ProductRepository : Repository<Product>, IProductRepository
     {
-        public AuctionRepository(NiceAuctionContext context) : base(context) { }
+        public ProductRepository(NiceAuctionContext context) : base(context) { }
 
         public IQueryable<Product> FindAllWithDetails()
         {

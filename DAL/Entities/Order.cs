@@ -14,8 +14,8 @@ namespace DAL.Entities
         public decimal OrderValue { get; set; }
         public DateTime CreatedAt { get; set; }
         public string UserId { get; set; }
-        public int AuctionId { get; set; }
+        public int ProductId { get; set; }
         public User User { get; set; }
-        public Product Auction { get; set; }
+        public Product Product { get; set; }
     }
 }

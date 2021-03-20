@@ -21,77 +21,42 @@ namespace NiceAuction.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
-        private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
-        private readonly IConfiguration _configuration;
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, IConfiguration configuration)
+        private readonly AuthenticationHelper _authenticationHelper;
+
+        public AccountController(AuthenticationHelper authenticationHelper)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _configuration = configuration;
+            _authenticationHelper = authenticationHelper;
         }
-
-
 
         [HttpPost("Create")]
         public async Task<ActionResult<TokenDTO>> CreateUser([FromBody] UserDTO userModel) 
         {
-            var user = new User { UserName = userModel.UserName, Email = userModel.Email, FirstName = userModel.FirstName, LastName = userModel.LastName, Balance = 0, Phone = userModel.Phone };
-            var result = await _userManager.CreateAsync(user, userModel.Password);
-            if (result.Succeeded)
+            var result =  await _authenticationHelper.CreateUser(userModel);
+            if (result.Errors == null || result.Errors.ToList().Count < 0)
             {
-                return BuildToken(new RegisterDTO { EmailAdress = userModel.Email, Name = userModel.UserName, Password = userModel.Password });
+                return Ok(result);
             }
-            else
-            {
-                return BadRequest(result.Errors);
-            }
+            return BadRequest(result.Errors);
         }
 
 
         [HttpPost("Login")]
         public async Task<ActionResult<TokenDTO>> Login(LoginDTO model)
         {
-            var result = await _signInManager.PasswordSignInAsync(model.Name, model.Password, isPersistent: false, lockoutOnFailure: false);
-            if (result.Succeeded)
-            {
-                return BuildToken(new RegisterDTO {Name = model.Name, Password = model.Password });
-            }
-            else
-            {
-                return BadRequest("Invalid login attempt");
-            }
+           return await _authenticationHelper.Login(model);
+            
+            
         }
-
-
-        private TokenDTO BuildToken(RegisterDTO model)
+        [HttpGet("test")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
+        public IActionResult gettest()
         {
-            var claims = new List<Claim>()
-            {
-                new Claim(ClaimTypes.Name, model.Name),
-              
-              
-            };
+            return Ok("success");
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:key"]));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            var expiration = DateTime.UtcNow.AddYears(10);
-
-            JwtSecurityToken token = new JwtSecurityToken(
-            issuer: null,
-            audience: null,
-            claims: claims,
-            expires: expiration,
-            signingCredentials: creds
-            );
-
-            return new TokenDTO
-            {
-                Token = new JwtSecurityTokenHandler().WriteToken(token),
-                Expiration = expiration
-            };
 
         }
+
+
 
     }
 }

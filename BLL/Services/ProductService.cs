@@ -10,12 +10,12 @@ using DAL.Entities;
 
 namespace BLL.Services
 {
-    public class AuctionService : IAuctionService
+    public class ProductService : IProductService
     {
         private readonly IProductRepository _auctionRepository;
         private readonly IMapper _mapper;
 
-        public AuctionService(IProductRepository auctionRepository, IMapper mapper)
+        public ProductService(IProductRepository auctionRepository, IMapper mapper)
         {
             _auctionRepository = auctionRepository;
             _mapper = mapper;

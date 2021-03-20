@@ -19,6 +19,15 @@ namespace BLL
               .ReverseMap();
 
 
+            CreateMap<LoginDTO, UserDTO>()
+                .ForMember(p=>p.UserName, c=>c.MapFrom(x=>x.Name))
+                .ForMember(p => p.Password, c => c.MapFrom(x => x.Password)).ReverseMap();
+
+            CreateMap<User, UserDTO>()      
+             .ReverseMap();
+
+
+
 
 
         }

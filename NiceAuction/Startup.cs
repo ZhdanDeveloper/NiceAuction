@@ -24,6 +24,7 @@ using DAL.Interfaces;
 using DAL.Repositories;
 using System.Reflection;
 using Microsoft.OpenApi.Models;
+using BLL;
 
 namespace NiceAuction
 {
@@ -86,14 +87,9 @@ namespace NiceAuction
 
 
 
-
-
-
-
-            services.AddAutoMapper(Assembly.GetExecutingAssembly());
-            services.AddTransient<IAuctionService, AuctionService>();
-            services.AddTransient<IProductRepository, AuctionRepository>();
-
+            services.AddServices();
+            services.AddAutoMapper();
+            services.AddTransient<AuthenticationHelper>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(opt=>

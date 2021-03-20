@@ -11,9 +11,7 @@ namespace BLL.DTOs
         public string Name { get; set; }
         public string Description { get; set; }
         public IFormFile Photo { get; set; }
-        public decimal StartBid { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime FinishDate { get; set; }
+        public decimal Price { get; set; }
         public string UserId { get; set; }
         public ICollection<int> CategoriesIds { get; set; }
         public ICollection<int> BidsIds { get; set; }
