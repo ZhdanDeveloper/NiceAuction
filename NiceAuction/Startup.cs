@@ -14,6 +14,8 @@ using System.Threading.Tasks;
 using DAL;
 using DAL.Entities;
 using Microsoft.AspNetCore.Identity;
+using BLL.Interfaces;
+using BLL.Services;
 
 namespace NiceAuction
 {
@@ -29,6 +31,13 @@ namespace NiceAuction
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+
+
+            services.AddTransient<IAuctionService, AuctionService>();
+
+
+
             services.AddControllers();
             services.AddDbContext<NiceAuctionContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));

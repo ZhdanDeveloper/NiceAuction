@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DAL.Interfaces
 {
-    interface IAuctionRepository : IRepository<Auction>
+    public interface IAuctionRepository : IRepository<Auction>
     {
         Task<Auction> GetByIdWithDetailsAsync(int id);
         IQueryable<Auction> FindAllWithDetails();
