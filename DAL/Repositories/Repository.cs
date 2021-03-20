@@ -50,7 +50,7 @@ namespace DAL.Repositories
             return await _context.Set<TEntity>().FindAsync(id);
         }
 
-        public Task Update(TEntity entity)
+        public void Update(TEntity entity)
         {
             _context.Set<TEntity>().Update(entity);
         }

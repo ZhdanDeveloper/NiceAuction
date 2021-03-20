@@ -14,7 +14,7 @@ namespace DAL.Interfaces
 
         Task AddAsync(TEntity entity);
 
-        Task Update(TEntity entity);
+        void Update(TEntity entity);
 
         void Delete(TEntity entity);
 
