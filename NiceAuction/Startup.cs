@@ -20,6 +20,10 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using DAL.Interfaces;
+using DAL.Repositories;
+using System.Reflection;
+using Microsoft.OpenApi.Models;
 
 namespace NiceAuction
 {
@@ -35,9 +39,60 @@ namespace NiceAuction
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSwaggerGen();
 
 
+
+
+
+            services.AddSwaggerGen(s =>
+            {
+                s.SwaggerDoc("v1", new OpenApiInfo
+                {
+                
+                });
+
+                s.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Description = "JWT Authorization header using the Bearer scheme (Example: 'Bearer 12345abcdef')",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer"
+                });
+
+                s.AddSecurityRequirement(new OpenApiSecurityRequirement{
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        }
+                    },
+                    Array.Empty<string>()
+                }
+                });
+
+            });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            services.AddTransient<IAuctionService, AuctionService>();
+            services.AddTransient<IAuctionRepository, AuctionRepository>();
 
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -70,6 +125,7 @@ namespace NiceAuction
             {
                 app.UseDeveloperExceptionPage();
             }
+
             app.UseSwagger();
 
             app.UseSwaggerUI(c =>

@@ -24,8 +24,7 @@ namespace BLL.Services
         public async Task AddAsync(AuctionDTO model)
         {
 
-            
-
+       
             await _auctionRepository.AddAsync(_mapper.Map<Auction>(model));
             _auctionRepository.Save();
         }
