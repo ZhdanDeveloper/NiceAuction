@@ -9,6 +9,5 @@ namespace BLL.Interfaces
 {
     public interface IProductService : ICrud<ProductDTO>
     {
-        Task AssignProductToCategories(Product product);
     }
 }

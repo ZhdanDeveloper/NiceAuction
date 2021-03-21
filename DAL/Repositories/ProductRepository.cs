@@ -22,5 +22,8 @@ namespace DAL.Repositories
         {
             return _context.Products.Include(x => x.Orders).Include(x => x.ProductCategories).Include(x => x.User).FirstOrDefaultAsync(x=>x.Id == id);
         }
+
+
+       
     }
 }

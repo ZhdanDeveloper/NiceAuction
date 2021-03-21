@@ -12,5 +12,7 @@ namespace DAL.Interfaces
         Task<Product> GetByIdWithDetailsAsync(int id);
         IQueryable<Product> FindAllWithDetails();
 
+
+
     }
 }
