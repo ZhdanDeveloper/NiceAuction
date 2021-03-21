@@ -16,9 +16,13 @@ namespace BLL
 
         public static void AddServices(this IServiceCollection services)
         {
+
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IProductService, ProductService>();
             services.AddTransient<IProductRepository, ProductRepository>();
+            services.AddTransient<IProductCategoryRepository, ProductCategoryRepository>();
+            services.AddTransient<FileManager>();
+
         }
 
 

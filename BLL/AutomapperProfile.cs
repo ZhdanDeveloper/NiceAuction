@@ -14,8 +14,7 @@ namespace BLL
         {
             CreateMap<Product, ProductDTO>()
               .ForMember(p => p.CategoriesIds, c => c.MapFrom(x => x.ProductCategories.Select(i => i.CategoryId)))
-              .ForMember(p => p.BidsIds, c => c.MapFrom(x => x.Orders.Select(b => b.Id)))
-              .ForMember(p => p.Photo, opt => opt.Ignore())
+              .ForMember(p => p.Id, opt => opt.Ignore())
               .ReverseMap();
 
 
@@ -23,8 +22,13 @@ namespace BLL
                 .ForMember(p=>p.UserName, c=>c.MapFrom(x=>x.Name))
                 .ForMember(p => p.Password, c => c.MapFrom(x => x.Password)).ReverseMap();
 
-            CreateMap<User, UserDTO>()      
-             .ReverseMap();
+            CreateMap<User, UserDTO>();
+               
+
+            CreateMap<UserDTO, User>()
+             .ForMember(p => p.Id, opt => opt.Ignore());
+
+
 
 
 

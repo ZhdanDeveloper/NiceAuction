@@ -23,6 +23,7 @@ namespace NiceAuction.Controllers
     {
         private readonly AuthenticationHelper _authenticationHelper;
 
+
         public AccountController(AuthenticationHelper authenticationHelper)
         {
             _authenticationHelper = authenticationHelper;
@@ -47,13 +48,13 @@ namespace NiceAuction.Controllers
             
             
         }
-        [HttpGet("test")]
+        [HttpGet("CurrentUser")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
-        public IActionResult gettest()
+        public async Task<IActionResult> GetCurrentUser()
         {
-            return Ok("success");
+            var user = await _authenticationHelper.GetCurrentUserByName(User.Identity.Name);
 
-
+            return Ok(user);
         }
 
 

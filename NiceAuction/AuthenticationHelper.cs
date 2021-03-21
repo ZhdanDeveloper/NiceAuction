@@ -69,15 +69,25 @@ namespace NiceAuction
         }
 
 
+
+        public async Task<UserDTO> GetCurrentUserByName(string Name)
+        {
+            User user = await _userManager.FindByNameAsync(Name);
+            return _mapper.Map<UserDTO>(user);
+
+        }
+
+
         private TokenDTO BuildToken(LoginDTO model)
         {
 
-            var role = _userManager.FindByNameAsync(model.Name).Result.Role;
-             
+            var user = _userManager.FindByNameAsync(model.Name).Result;
+
             var claims = new List<Claim>()
             {
                 new Claim(ClaimTypes.Name, model.Name),
-                new Claim(ClaimTypes.Role, role)
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Role, user.Role)
 
             };
 
