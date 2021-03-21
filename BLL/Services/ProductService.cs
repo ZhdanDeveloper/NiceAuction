@@ -24,7 +24,7 @@ namespace BLL.Services
             _mapper = mapper;
         }
 
-        public async Task AddAsync(ProductDTO model)
+        public async Task<CreateProductDTO> AddAsync(CreateProductDTO model)
         {
             var prod = _mapper.Map<Product>(model);
             prod.PhotoPath = await _fileManager.SaveImage(model.Photo);
@@ -37,7 +37,8 @@ namespace BLL.Services
             }
             _productRepository.Update(prod);
             _productRepository.Save();
-          
+
+            return _mapper.Map<CreateProductDTO>(prod);
            
         }
 
@@ -46,17 +47,17 @@ namespace BLL.Services
             throw new NotImplementedException();
         }
 
-        public IEnumerable<ProductDTO> GetAll()
+        public IEnumerable<CreateProductDTO> GetAll()
         {
             throw new NotImplementedException();
         }
 
-        public Task<ProductDTO> GetByIdAsync(int id)
+        public Task<CreateProductDTO> GetByIdAsync(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task UpdateAsync(ProductDTO model)
+        public Task UpdateAsync(CreateProductDTO model)
         {
             throw new NotImplementedException();
         }

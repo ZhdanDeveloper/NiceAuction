@@ -25,25 +25,13 @@ namespace NiceAuction.Controllers
         }
 
         [HttpPost("upload")]
-        public async Task<IActionResult> CreateProduct([FromForm] ProductDTO product)
+        public async Task<IActionResult> CreateProduct([FromForm] CreateProductDTO product)
         {
-            await _productService.AddAsync(product);
-            return Ok();
+           
+            return Ok(await _productService.AddAsync(product));
         }
 
-        [NonAction]
-        public async Task<string> SaveImage(IFormFile image)
-        {
-            string imageName = new string(Path.GetFileNameWithoutExtension(image.FileName).Take(10).ToArray()).Replace(' ', '-');
-            imageName += DateTime.Now.ToString("yymmssfff") + Path.GetExtension(image.FileName);
-            var ImagePath = Path.Combine(_webHostEnvironment.ContentRootPath, "Images", imageName);
-            using (var fileStream = new FileStream(ImagePath, FileMode.Create))
-            {
-                await image.CopyToAsync(fileStream);
-            }
-            return imageName;
-            
-        }
+    
 
 
     }

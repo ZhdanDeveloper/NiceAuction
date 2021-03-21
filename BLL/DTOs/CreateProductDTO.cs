@@ -7,7 +7,7 @@ using System.Text;
 
 namespace BLL.DTOs
 {
-    public class ProductDTO
+    public class CreateProductDTO
     {
      
         public int Id { get; set; }
