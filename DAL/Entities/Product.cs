@@ -15,7 +15,7 @@ namespace DAL.Entities
         [MaxLength(300)]
         public string Description { get; set; }
         public string PhotoPath { get; set; }
-        [Column(TypeName = "decimal(8,2)"), Required]
+        [Column(TypeName = "decimal(10,2)"), Required]
         public decimal Price { get; set; }
         public string UserId { get; set; }
         public User User { get; set; }

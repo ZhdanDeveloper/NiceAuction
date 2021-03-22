@@ -53,7 +53,7 @@ namespace BLL.Services
 
             if (product == null)
             {
-                throw new ProductException("ProductNotFound");
+                throw new AuctionException("Category not found", System.Net.HttpStatusCode.NotFound);
             }
 
             if (CurrentUserId == product.UserId)
@@ -62,16 +62,20 @@ namespace BLL.Services
                 await _productRepository.DeleteByIdAsync(modelId);
                 _productRepository.Save();              
             }
-            return $"deleted, ID : {product.Id}";
+            return $"deleted, Name : {product.Name}, ID : {product.Id}";
         }
 
         public async Task<string> DeleteByIdAsync(int modelId)
         {
             var product = await _productRepository.GetByIdAsync(modelId);
+            if (product == null)
+            {
+                throw new AuctionException("Category not found", System.Net.HttpStatusCode.NotFound);
+            }
             _fileManager.DeleteImage(product.PhotoPath);
             await _productRepository.DeleteByIdAsync(modelId);
             _productRepository.Save();
-            return $"deleted, ID : {product.Id}";
+            return $"deleted, Name : {product.Name}, ID : {product.Id}";
 
         }
 
@@ -88,6 +92,11 @@ namespace BLL.Services
         public async Task<ReadProductDTO> UpdateAsUserAsync(int id, string CurrentUserId, UpdateProductDTO productDTO)
         {
             var product = await _productRepository.GetByIdAsync(id);
+
+            if (product == null)
+            {
+                throw new AuctionException("Category not found", System.Net.HttpStatusCode.NotFound);
+            }
             if (CurrentUserId == product.UserId)
             {
                 var photopath = productDTO.Photo == null ? null : await _fileManager.SaveImage(productDTO.Photo);
@@ -108,7 +117,8 @@ namespace BLL.Services
 
         public Task<string> UpdateAsync(CreateProductDTO model)
         {
-            return null;
+            throw new NotImplementedException();
         }
     }
+    
 }

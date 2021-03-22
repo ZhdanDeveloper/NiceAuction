@@ -15,16 +15,16 @@ using System.Threading.Tasks;
 
 namespace NiceAuction.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ApiController]
-    public class ProductController : ControllerBase
+    public class ProductsController : ControllerBase
     {
         private readonly IProductService _productService;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly UserManager<User> _userManager;
 
-        public ProductController(IProductService productService, IWebHostEnvironment webHostEnvironment, UserManager<User> userManager)
+        public ProductsController(IProductService productService, IWebHostEnvironment webHostEnvironment, UserManager<User> userManager)
         {
             _productService = productService;
             _webHostEnvironment = webHostEnvironment;
@@ -32,7 +32,7 @@ namespace NiceAuction.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("GetAll")]
+        [HttpGet]
         public IActionResult GetAll()
         {
             return Ok(_productService.GetAll());
@@ -46,7 +46,7 @@ namespace NiceAuction.Controllers
             return Ok(await _productService.GetByIdAsync(id));
         }
 
-        [HttpPost("CreateProduct")]
+        [HttpPost]
         public async Task<IActionResult> CreateProduct([FromForm] CreateProductDTO product)
         {
             product.UserId = _userManager.FindByNameAsync(_userManager.GetUserName(User)).Result.Id;

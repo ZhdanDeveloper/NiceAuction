@@ -10,14 +10,13 @@ namespace BLL.DTOs
 {
     public class CreateProductDTO
     {  
-        public int? Id { get; set; }
         [Required, MaxLength(50), MinLength(5)]
         public string Name { get; set; }
         [MaxLength(300)]
         public string Description { get; set; }
         [NotMapped, Required]
         public IFormFile Photo { get; set; }
-        [Required]
+        [Required,Range(0,99999999)]     
         public decimal Price { get; set; }
         [AllowNull]
         public string UserId { get; set; }

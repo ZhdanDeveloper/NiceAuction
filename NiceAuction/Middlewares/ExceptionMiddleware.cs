@@ -1,4 +1,5 @@
 ﻿using BLL.DTOs;
+using BLL.Exceptions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -9,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace NiceAuction.Extensions
 {
-    public class ExeptionMiddleware
+    public class ExceptionMiddleware
     {
         private readonly RequestDelegate _next;
 
-        public ExeptionMiddleware(RequestDelegate next)
+        public ExceptionMiddleware(RequestDelegate next)
         {
             _next = next;
         }
@@ -23,15 +24,15 @@ namespace NiceAuction.Extensions
             {
                 await _next(httpContext);
             }
-            catch (Exception ex)
+            catch (AuctionException ex)
             {
                 await HandleExceptionAsync(httpContext, ex);
             }
         }
-        private Task HandleExceptionAsync(HttpContext context, Exception exception)
+        private Task HandleExceptionAsync(HttpContext context, AuctionException exception)
         {
             context.Response.ContentType = "application/json";
-            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            context.Response.StatusCode = (int)exception.StatusCode;
             return context.Response.WriteAsync(new ErrorDetailsDTO
             {
                 StatusCode = context.Response.StatusCode,

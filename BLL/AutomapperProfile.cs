@@ -27,7 +27,7 @@ namespace BLL
                 .ForMember(x => x.Id, opt => opt.Ignore()).ReverseMap()
                 .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
-
+            CreateMap<Category, CreateCategoryDTO>().ReverseMap();
 
             CreateMap<LoginDTO, UserDTO>()
                 .ForMember(p=>p.UserName, c=>c.MapFrom(x=>x.Name))
@@ -37,12 +37,6 @@ namespace BLL
                
             CreateMap<UserDTO, User>()
              .ForMember(p => p.Id, opt => opt.Ignore());
-
-
-
-
-
-
 
         }
 
