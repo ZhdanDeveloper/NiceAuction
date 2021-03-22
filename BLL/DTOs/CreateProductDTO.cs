@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
 namespace BLL.DTOs
@@ -19,7 +20,7 @@ namespace BLL.DTOs
         public IFormFile Photo { get; set; }
         [Required]
         public decimal Price { get; set; }
-        [Required]
+        [AllowNull]
         public string UserId { get; set; }
         public ICollection<int> CategoriesIds { get; set; }
 

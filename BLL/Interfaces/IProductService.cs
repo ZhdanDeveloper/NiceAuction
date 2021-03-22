@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BLL.Interfaces
 {
-    public interface IProductService : ICrud<CreateProductDTO>
+    public interface IProductService : ICrud<CreateProductDTO, ReadProductDTO>
     {
     }
 }

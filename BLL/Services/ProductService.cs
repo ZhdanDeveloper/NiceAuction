@@ -3,6 +3,7 @@ using BLL.DTOs;
 using BLL.Interfaces;
 using DAL.Entities;
 using DAL.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -15,6 +16,7 @@ namespace BLL.Services
 
         private readonly FileManager _fileManager;
         private readonly IProductRepository _productRepository;
+        private readonly UserManager<User> _userManager;
         private readonly IMapper _mapper;
 
         public ProductService(FileManager fileManager, IProductRepository productRepository, IMapper mapper)
@@ -24,7 +26,7 @@ namespace BLL.Services
             _mapper = mapper;
         }
 
-        public async Task<CreateProductDTO> AddAsync(CreateProductDTO model)
+        public async Task<ReadProductDTO> AddAsync(CreateProductDTO model)
         {
             var prod = _mapper.Map<Product>(model);
             prod.PhotoPath = await _fileManager.SaveImage(model.Photo);
@@ -38,7 +40,7 @@ namespace BLL.Services
             _productRepository.Update(prod);
             _productRepository.Save();
 
-            return _mapper.Map<CreateProductDTO>(prod);
+            return _mapper.Map<ReadProductDTO>(prod);
            
         }
 
@@ -47,12 +49,12 @@ namespace BLL.Services
             throw new NotImplementedException();
         }
 
-        public IEnumerable<CreateProductDTO> GetAll()
+        public IEnumerable<ReadProductDTO> GetAll()
         {
             throw new NotImplementedException();
         }
 
-        public Task<CreateProductDTO> GetByIdAsync(int id)
+        public Task<ReadProductDTO> GetByIdAsync(int id)
         {
             throw new NotImplementedException();
         }

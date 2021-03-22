@@ -16,8 +16,13 @@ namespace BLL
                  .ForMember(p => p.Id, opt => opt.Ignore());
 
             CreateMap<Product, CreateProductDTO>()
-             .ForMember(p => p.CategoriesIds, c => c.MapFrom(x => x.ProductCategories.Select(i => i.CategoryId)))
-             .ForMember(p => p.Photo, c => c.MapFrom(x => x.PhotoPath));
+             .ForMember(p => p.CategoriesIds, c => c.MapFrom(x => x.ProductCategories.Select(i => i.CategoryId)));
+
+            CreateMap<Product, ReadProductDTO>()
+               .ForMember(p => p.CategoriesIds, c => c.MapFrom(x => x.ProductCategories.Select(i => i.CategoryId)))
+              .ForMember(p => p.Photo, c => c.MapFrom(x => x.PhotoPath));
+
+
 
 
 

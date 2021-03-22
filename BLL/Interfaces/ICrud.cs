@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace BLL.Interfaces
 {
-    public interface ICrud<TModel> where TModel : class
+    public interface ICrud<TModel, ReadModel> where TModel : class where ReadModel : class
     {
-        IEnumerable<TModel> GetAll();
-        Task<TModel> GetByIdAsync(int id);
-        Task<TModel> AddAsync(TModel model);
+        IEnumerable<ReadModel> GetAll();
+        Task<ReadModel> GetByIdAsync(int id);
+        Task<ReadModel> AddAsync(TModel model);
         Task UpdateAsync(TModel model);
         Task DeleteByIdAsync(int modelId);
 
