@@ -10,8 +10,8 @@ namespace BLL.Interfaces
         IEnumerable<ReadModel> GetAll();
         Task<ReadModel> GetByIdAsync(int id);
         Task<ReadModel> AddAsync(TModel model);
-        Task UpdateAsync(TModel model);
-        Task DeleteByIdAsync(int modelId);
+        Task<string> UpdateAsync(TModel model);
+        Task<string> DeleteByIdAsync(int modelId);
 
     }
 }

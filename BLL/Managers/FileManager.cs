@@ -12,9 +12,6 @@ namespace BLL.Services
     {
         public async Task<string> SaveImage(IFormFile image)
         {
-    
-
-
             if (image.Length>0)
             {
                 var directory = Directory.GetCurrentDirectory();
@@ -34,18 +31,25 @@ namespace BLL.Services
                 }            
             }
             return null;
-
-
-
-
-
-
-
-
-
-
-
-
         }
+
+
+
+        public void DeleteImage(string path)
+        {
+            if (File.Exists(Directory.GetCurrentDirectory() + path))
+            {
+                File.Delete(Directory.GetCurrentDirectory() + path);
+            }
+        }
+
+
+
+
+
+
+
+
+
     }
 }

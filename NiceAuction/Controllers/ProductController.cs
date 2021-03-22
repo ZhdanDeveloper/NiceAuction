@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 namespace NiceAuction.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ApiController]
     public class ProductController : ControllerBase
     {
@@ -30,16 +31,37 @@ namespace NiceAuction.Controllers
             _userManager = userManager;
         }
 
+        [AllowAnonymous]
+        [HttpGet("GetAll")]
+        public IActionResult GetAll()
+        {
+            return Ok(_productService.GetAll());
+        }
+
+
+        [AllowAnonymous]
+        [HttpGet("GetById/{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            return Ok(await _productService.GetByIdAsync(id));
+        }
+
         [HttpPost("CreateProduct")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> CreateProduct([FromForm] CreateProductDTO product)
         {
             product.UserId = _userManager.FindByNameAsync(_userManager.GetUserName(User)).Result.Id;
             return Ok(await _productService.AddAsync(product));
         }
 
-    
 
 
+        [HttpDelete("DeleteProductAsUser/{id}")]
+        public async Task<IActionResult> DeleteProduct(int id)
+        {
+            await _productService.DeleteAsUserByIdAsync(id, _userManager.FindByNameAsync(_userManager.GetUserName(User)).Result.Id);
+            return Ok("deleted");
+        }
+
+      
     }
 }

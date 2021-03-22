@@ -16,7 +16,6 @@ namespace BLL.Services
 
         private readonly FileManager _fileManager;
         private readonly IProductRepository _productRepository;
-        private readonly UserManager<User> _userManager;
         private readonly IMapper _mapper;
 
         public ProductService(FileManager fileManager, IProductRepository productRepository, IMapper mapper)
@@ -44,22 +43,39 @@ namespace BLL.Services
            
         }
 
-        public Task DeleteByIdAsync(int modelId)
+        public async Task DeleteAsUserByIdAsync(int modelId, string CurrentUserId)
         {
-            throw new NotImplementedException();
+            var product = await _productRepository.GetByIdAsync(modelId);
+            if (CurrentUserId == product.UserId)
+            {
+                _fileManager.DeleteImage(product.PhotoPath);
+                await _productRepository.DeleteByIdAsync(modelId);
+                _productRepository.Save();
+            }
+            
+        }
+
+        public async Task<string> DeleteByIdAsync(int modelId)
+        {
+            var product = await _productRepository.GetByIdAsync(modelId);
+            _fileManager.DeleteImage(product.PhotoPath);
+            await _productRepository.DeleteByIdAsync(modelId);
+            _productRepository.Save();
+            return $"deleted, ID : {product.Id}";
+
         }
 
         public IEnumerable<ReadProductDTO> GetAll()
         {
-            throw new NotImplementedException();
+            return _mapper.Map<List<ReadProductDTO>>(_productRepository.FindAllWithDetails());
         }
 
-        public Task<ReadProductDTO> GetByIdAsync(int id)
+        public async Task<ReadProductDTO> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return _mapper.Map<ReadProductDTO>(await _productRepository.GetByIdWithDetailsAsync(id));
         }
 
-        public Task UpdateAsync(CreateProductDTO model)
+        public Task<string> UpdateAsync(CreateProductDTO model)
         {
             throw new NotImplementedException();
         }

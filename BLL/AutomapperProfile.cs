@@ -20,11 +20,8 @@ namespace BLL
 
             CreateMap<Product, ReadProductDTO>()
                .ForMember(p => p.CategoriesIds, c => c.MapFrom(x => x.ProductCategories.Select(i => i.CategoryId)))
-              .ForMember(p => p.Photo, c => c.MapFrom(x => x.PhotoPath));
-
-
-
-
+              .ForMember(p => p.Photo, c => c.MapFrom(x => x.PhotoPath))
+              .ForMember(p=>p.OwnerName, c=>c.MapFrom(x=>x.User.UserName));
 
             CreateMap<LoginDTO, UserDTO>()
                 .ForMember(p=>p.UserName, c=>c.MapFrom(x=>x.Name))
@@ -32,7 +29,6 @@ namespace BLL
 
             CreateMap<User, UserDTO>();
                
-
             CreateMap<UserDTO, User>()
              .ForMember(p => p.Id, opt => opt.Ignore());
 
