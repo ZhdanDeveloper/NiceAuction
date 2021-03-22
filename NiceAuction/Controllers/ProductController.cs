@@ -40,7 +40,7 @@ namespace NiceAuction.Controllers
 
 
         [AllowAnonymous]
-        [HttpGet("GetById/{id}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             return Ok(await _productService.GetByIdAsync(id));
@@ -54,14 +54,17 @@ namespace NiceAuction.Controllers
         }
 
 
-
-        [HttpDelete("DeleteProductAsUser/{id}")]
-        public async Task<IActionResult> DeleteProduct(int id)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> DeleteProduct(int id, [FromForm] UpdateProductDTO product)
         {
-            await _productService.DeleteAsUserByIdAsync(id, _userManager.FindByNameAsync(_userManager.GetUserName(User)).Result.Id);
-            return Ok("deleted");
+            return Ok(await _productService.UpdateAsUserAsync(id, _userManager.FindByNameAsync(_userManager.GetUserName(User)).Result.Id, product));
         }
 
-      
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteProduct(int id)
+        {       
+            return Ok(await _productService.DeleteAsUserByIdAsync(id, _userManager.FindByNameAsync(_userManager.GetUserName(User)).Result.Id));
+        }
+
     }
 }

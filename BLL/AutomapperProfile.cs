@@ -23,6 +23,12 @@ namespace BLL
               .ForMember(p => p.Photo, c => c.MapFrom(x => x.PhotoPath))
               .ForMember(p=>p.OwnerName, c=>c.MapFrom(x=>x.User.UserName));
 
+            CreateMap<UpdateProductDTO, Product>()
+                .ForMember(x => x.Id, opt => opt.Ignore()).ReverseMap()
+                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+
+
+
             CreateMap<LoginDTO, UserDTO>()
                 .ForMember(p=>p.UserName, c=>c.MapFrom(x=>x.Name))
                 .ForMember(p => p.Password, c => c.MapFrom(x => x.Password)).ReverseMap();

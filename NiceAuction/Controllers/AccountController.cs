@@ -29,6 +29,16 @@ namespace NiceAuction.Controllers
             _authenticationHelper = authenticationHelper;
         }
 
+
+        [HttpGet("CurrentUser")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
+        public async Task<IActionResult> GetCurrentUser()
+        {
+            var user = await _authenticationHelper.GetCurrentUserByName(User.Identity.Name);
+
+            return Ok(user);
+        }
+
         [HttpPost("Create")]
         public async Task<ActionResult<TokenDTO>> CreateUser([FromBody] UserDTO userModel) 
         {
@@ -48,14 +58,7 @@ namespace NiceAuction.Controllers
             
             
         }
-        [HttpGet("CurrentUser")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
-        public async Task<IActionResult> GetCurrentUser()
-        {
-            var user = await _authenticationHelper.GetCurrentUserByName(User.Identity.Name);
-
-            return Ok(user);
-        }
+    
 
 
 

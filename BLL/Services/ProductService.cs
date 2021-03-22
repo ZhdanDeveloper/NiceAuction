@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using BLL.DTOs;
+using BLL.Exceptions;
 using BLL.Interfaces;
 using DAL.Entities;
 using DAL.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,13 +18,15 @@ namespace BLL.Services
 
         private readonly FileManager _fileManager;
         private readonly IProductRepository _productRepository;
+        private readonly IProductCategoryRepository _productCategoryRepository;
         private readonly IMapper _mapper;
 
-        public ProductService(FileManager fileManager, IProductRepository productRepository, IMapper mapper)
+        public ProductService(FileManager fileManager, IProductRepository productRepository, IMapper mapper, IProductCategoryRepository productCategoryRepository)
         {
             _fileManager = fileManager;
             _productRepository = productRepository;
             _mapper = mapper;
+            _productCategoryRepository = productCategoryRepository;
         }
 
         public async Task<ReadProductDTO> AddAsync(CreateProductDTO model)
@@ -43,16 +47,22 @@ namespace BLL.Services
            
         }
 
-        public async Task DeleteAsUserByIdAsync(int modelId, string CurrentUserId)
+        public async Task<string> DeleteAsUserByIdAsync(int modelId, string CurrentUserId)
         {
             var product = await _productRepository.GetByIdAsync(modelId);
+
+            if (product == null)
+            {
+                throw new ProductException("ProductNotFound");
+            }
+
             if (CurrentUserId == product.UserId)
             {
                 _fileManager.DeleteImage(product.PhotoPath);
                 await _productRepository.DeleteByIdAsync(modelId);
-                _productRepository.Save();
+                _productRepository.Save();              
             }
-            
+            return $"deleted, ID : {product.Id}";
         }
 
         public async Task<string> DeleteByIdAsync(int modelId)
@@ -75,9 +85,30 @@ namespace BLL.Services
             return _mapper.Map<ReadProductDTO>(await _productRepository.GetByIdWithDetailsAsync(id));
         }
 
+        public async Task<ReadProductDTO> UpdateAsUserAsync(int id, string CurrentUserId, UpdateProductDTO productDTO)
+        {
+            var product = await _productRepository.GetByIdAsync(id);
+            if (CurrentUserId == product.UserId)
+            {
+                var photopath = productDTO.Photo == null ? null : await _fileManager.SaveImage(productDTO.Photo);
+                if (photopath != null)
+                {
+                    _fileManager.DeleteImage(product.PhotoPath);
+                    product.PhotoPath = photopath;
+                }
+               
+                 product = _mapper.Map(productDTO, product);
+                 product.UserId = CurrentUserId;
+                _productRepository.Update(product);
+                _productRepository.Save();
+              
+            }
+            return _mapper.Map<ReadProductDTO>(product);
+        }
+
         public Task<string> UpdateAsync(CreateProductDTO model)
         {
-            throw new NotImplementedException();
+            return null;
         }
     }
 }

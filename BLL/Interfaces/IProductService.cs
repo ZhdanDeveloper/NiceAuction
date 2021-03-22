@@ -9,6 +9,8 @@ namespace BLL.Interfaces
 {
     public interface IProductService : ICrud<CreateProductDTO, ReadProductDTO>
     {
-        public Task DeleteAsUserByIdAsync(int modelId, string CurrentUserId);
+        public Task<string> DeleteAsUserByIdAsync(int modelId, string CurrentUserId);
+        Task<ReadProductDTO> UpdateAsUserAsync(int id, string CurrentUserId, UpdateProductDTO productDTO);
+
     }
 }

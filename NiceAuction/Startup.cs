@@ -25,6 +25,7 @@ using DAL.Repositories;
 using System.Reflection;
 using Microsoft.OpenApi.Models;
 using BLL;
+using NiceAuction.Extensions;
 
 namespace NiceAuction
 {
@@ -128,6 +129,8 @@ namespace NiceAuction
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
+
+            app.UseMiddleware<ExeptionMiddleware>();
 
             app.UseHttpsRedirection();
 
