@@ -53,8 +53,8 @@ namespace NiceAuction.Controllers
             return Ok(await _productService.AddAsync(product));
         }
 
-        [HttpPost("{categoryId}/{productId}")]
-        public async Task<IActionResult> AssignProductToCategory(int categoryId, int productId)
+        [HttpPost("{productId}/categories/{categoryId}")]
+        public async Task<IActionResult> AssignProductToCategory(int productId, int categoryId)
         {
             return Ok(await _productService.AssigntProductToCategory(productId, categoryId, _userManager.FindByNameAsync(_userManager.GetUserName(User)).Result.Id));
         }
@@ -66,8 +66,8 @@ namespace NiceAuction.Controllers
             return Ok(await _productService.UpdateAsUserAsync(id, _userManager.FindByNameAsync(_userManager.GetUserName(User)).Result.Id, product));
         }
 
-        [HttpDelete("{categoryId}/{productId}")]
-        public async Task<IActionResult> DeleteProductFromCategory(int categoryId, int productId)
+        [HttpDelete("{productId}/categories/{categoryId}")]
+        public async Task<IActionResult> DeleteProductFromCategory(int productId, int categoryId)
         {
 
             return Ok(await _productService.DeleteProductFromCategoryById(productId, categoryId, _userManager.FindByNameAsync(_userManager.GetUserName(User)).Result.Id));
