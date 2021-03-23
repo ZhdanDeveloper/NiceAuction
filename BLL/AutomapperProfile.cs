@@ -30,19 +30,19 @@ namespace BLL
             CreateMap<Category, CreateCategoryDTO>().ReverseMap();
 
 
-            CreateMap<LoginDTO, UserDTO>()
+            CreateMap<LoginDTO, ReadUserDTO>()
                 .ForMember(p => p.UserName, c => c.MapFrom(x => x.Name));
                
 
             CreateMap<User, LoginDTO>()
                 .ForMember(x=>x.Name, c=>c.MapFrom(x=>x.UserName));
 
-            CreateMap<User, UserDTO>();
+            CreateMap<User, ReadUserDTO>();
 
             CreateMap<CreateUserDTO, User>()
                  .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
-            CreateMap<UserDTO, User>()
+            CreateMap<ReadUserDTO, User>()
              .ForMember(p => p.Id, opt => opt.Ignore());
 
         }

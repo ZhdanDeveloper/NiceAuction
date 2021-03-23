@@ -40,8 +40,8 @@ namespace NiceAuction
           
             if (result.Succeeded)
             {
-                var user = await _userManager.FindByNameAsync(model.UserName);
-                user.Role = "User";
+
+                UserToCreate.Role = "User";
                 await _userRepository.Save();
                 return BuildToken(_mapper.Map<LoginDTO>(UserToCreate));           
             }
@@ -67,10 +67,10 @@ namespace NiceAuction
 
 
 
-        public async Task<UserDTO> GetCurrentUserByName(string Name)
+        public async Task<ReadUserDTO> GetCurrentUserByName(string Name)
         {
             User user = await _userManager.FindByNameAsync(Name);
-            return _mapper.Map<UserDTO>(user);
+            return _mapper.Map<ReadUserDTO>(user);
 
         }
 

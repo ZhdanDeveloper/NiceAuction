@@ -6,22 +6,16 @@ using System.Text;
 
 namespace BLL.DTOs
 {
-    public class UserDTO
+    public class ReadUserDTO
     {
 
         public string Id { get; set; }
-        [Required, MaxLength(50), MinLength(2)]
         public string FirstName { get; set; }
-        [Required, MaxLength(50), MinLength(2)]
         public string LastName { get; set; }
-        [Required, MaxLength(50), MinLength(2)]
         public string UserName { get; set; }
-        [Required, MaxLength(50), MinLength(9)]
+        public string Role { get; set; }
         public string Phone { get; set; }
-
-        [Required]
         public string Email { get; set; }
-        [Required, MaxLength(50), MinLength(6)]
         public decimal Balance { get; set; }
     }
 }
