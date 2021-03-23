@@ -38,12 +38,18 @@ namespace NiceAuction.Controllers
             return Ok(_productService.GetAll());
         }
 
-
         [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             return Ok(await _productService.GetByIdAsync(id));
+        }
+
+        [AllowAnonymous]
+        [HttpGet("search")]
+        public IActionResult GetByName([FromQuery]string Name)
+        {
+            return Ok(_productService.SearchByName(Name));
         }
 
         [HttpPost]
@@ -56,7 +62,7 @@ namespace NiceAuction.Controllers
         [HttpPost("{productId}/categories/{categoryId}")]
         public async Task<IActionResult> AssignProductToCategory(int productId, int categoryId)
         {
-            return Ok(await _productService.AssigntProductToCategory(productId, categoryId, _userManager.FindByNameAsync(_userManager.GetUserName(User)).Result.Id));
+            return Ok(await _productService.AssignProductToCategory(productId, categoryId, _userManager.FindByNameAsync(_userManager.GetUserName(User)).Result.Id));
         }
 
 

@@ -55,9 +55,9 @@ namespace DAL.Repositories
             _context.Set<TEntity>().Update(entity);
         }
 
-        public void Save()
+        public async Task Save()
         {
-            _context.SaveChanges();
+           await _context.SaveChangesAsync();
         }
     }
     

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace BLL.Interfaces
 {
-    public interface ICategoryService : ICrud<CreateCategoryDTO, Category>
+    public interface ICategoryService : ICrud<CreateCategoryDTO, Category, CreateCategoryDTO>
     {
     }
 }

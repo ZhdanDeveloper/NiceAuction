@@ -36,14 +36,14 @@ namespace BLL.Services
             var prod = _mapper.Map<Product>(model);
             prod.PhotoPath = await _fileManager.SaveImage(model.Photo);
             await _productRepository.AddAsync(prod);
-            _productRepository.Save();
+            await _productRepository.Save();
             prod.ProductCategories = new List<ProductCategory>();
             foreach (var item in model.CategoriesIds)
             {
                 prod.ProductCategories.Add(new ProductCategory { ProductId = prod.Id, CategoryId = item });
             }
             _productRepository.Update(prod);
-            _productRepository.Save();
+            await _productRepository.Save();
 
             return _mapper.Map<ReadProductDTO>(prod);
            
@@ -62,7 +62,7 @@ namespace BLL.Services
             {
                 _fileManager.DeleteImage(product.PhotoPath);
                 await _productRepository.DeleteByIdAsync(modelId);
-                _productRepository.Save();
+                await _productRepository.Save();
                 return $"deleted, Name : {product.Name}, ID : {product.Id}";
             }
 
@@ -80,7 +80,7 @@ namespace BLL.Services
             }
             _fileManager.DeleteImage(product.PhotoPath);
             await _productRepository.DeleteByIdAsync(modelId);
-            _productRepository.Save();
+            await _productRepository.Save();
             return $"deleted, Name : {product.Name}, ID : {product.Id}";
 
         }
@@ -115,7 +115,7 @@ namespace BLL.Services
                  product = _mapper.Map(productDTO, product);
                  product.UserId = CurrentUserId;
                 _productRepository.Update(product);
-                _productRepository.Save();
+                 await _productRepository.Save();
               
             }
             return _mapper.Map<ReadProductDTO>(product);
@@ -136,7 +136,7 @@ namespace BLL.Services
             if (CurrentUserId == product.UserId)
             {
                 _productCategoryRepository.Delete(ProductCategory);
-                _productCategoryRepository.Save();
+                await _productCategoryRepository.Save();
                 return $"Product has been removed from category, Category Id :{CategoryId}, ProductId : {productId}";
             }
 
@@ -144,7 +144,7 @@ namespace BLL.Services
 
         }
 
-        public async Task<string> AssigntProductToCategory(int productId, int CategoryId, string CurrentUserId)
+        public async Task<string> AssignProductToCategory(int productId, int CategoryId, string CurrentUserId)
         {
             var product = await _productRepository.GetByIdAsync(productId);
             var category = _categoryRepository.FindAll().FirstOrDefault(x => x.Id == CategoryId);
@@ -166,12 +166,15 @@ namespace BLL.Services
                 throw new AuctionException("Product doesn't belong to user", System.Net.HttpStatusCode.Forbidden);
             }
             await  _productCategoryRepository.AddAsync(new ProductCategory { CategoryId = CategoryId, ProductId = productId });
-            _productCategoryRepository.Save();
+            await _productCategoryRepository.Save();
             return $"Product {product.Name} has been assign to category {category.Name}";
         }
+        public IEnumerable<ReadProductDTO> SearchByName(string Name)
+        {
+           return _mapper.Map<IEnumerable<ReadProductDTO>>(_productRepository.FindAll().Where(x => x.Name.Contains(Name)));
+        }
 
-
-        public Task<string> UpdateAsync(CreateProductDTO model)
+        public Task<string> UpdateAsync(UpdateProductDTO model, int id)
         {
             throw new NotImplementedException();
         }

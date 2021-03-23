@@ -7,6 +7,7 @@ using DAL.Interfaces;
 using DAL.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -26,9 +27,16 @@ namespace BLL.Services
 
         public async Task<Category> AddAsync(CreateCategoryDTO model)
         {
+            bool CategoryIsExist = _categoryRepository.FindAll().FirstOrDefault(x => x.Name == model.Name) != null;
+
+            if (CategoryIsExist)
+            {
+                throw new AuctionException("Category's alredy exist", System.Net.HttpStatusCode.Conflict);
+            }
+
             var category = _mapper.Map<Category>(model);
             await _categoryRepository.AddAsync(category);
-            _categoryRepository.Save();
+            await _categoryRepository.Save();
             return category;
         }
 
@@ -41,7 +49,7 @@ namespace BLL.Services
             }
 
             await _categoryRepository.DeleteByIdAsync(modelId);
-            _categoryRepository.Save();
+            await _categoryRepository.Save();
             return $"Deleted, name :{category.Name}, id : {category.Id}";
         }
 
@@ -50,14 +58,23 @@ namespace BLL.Services
             return _categoryRepository.FindAll();
         }
 
-        public Task<Category> GetByIdAsync(int id)
+        public async Task<Category> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _categoryRepository.GetByIdAsync(id);
         }
 
-        public Task<string> UpdateAsync(CreateCategoryDTO model)
+        public async Task<string> UpdateAsync(CreateCategoryDTO model, int id)
         {
-            throw new NotImplementedException();
+            var category = await _categoryRepository.GetByIdAsync(id);
+            if (category == null)
+            {
+                throw new AuctionException("Category not found", System.Net.HttpStatusCode.NotFound);
+            }
+            _mapper.Map(model, category);
+            _categoryRepository.Update(category);
+            await _categoryRepository.Save();
+            return "category has been updated succedfully";
+
         }
     }
 }

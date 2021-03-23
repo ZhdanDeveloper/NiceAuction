@@ -1,6 +1,7 @@
 ﻿using BLL.DTOs;
 using BLL.Interfaces;
 using BLL.Services;
+using DAL.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -13,7 +14,7 @@ using System.Threading.Tasks;
 namespace NiceAuction.Controllers
 {
     [Route("api/v1/[controller]")]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles ="Admin")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
     [ApiController]
     public class CategoriesController : ControllerBase
     {
@@ -34,7 +35,13 @@ namespace NiceAuction.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryDTO category)
         {
-           return Ok(await _categoryService.AddAsync(category));
+            return Ok(await _categoryService.AddAsync(category));
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateCategory(int id, [FromBody] CreateCategoryDTO category)
+        {
+            return Ok(await _categoryService.UpdateAsync(category, id));
         }
 
         [HttpDelete("{id}")]

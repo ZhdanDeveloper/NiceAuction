@@ -20,7 +20,7 @@ namespace DAL.Interfaces
 
         Task DeleteByIdAsync(int id);
 
-        void Save();
+        Task Save();
 
     }
 }
