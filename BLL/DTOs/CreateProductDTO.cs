@@ -18,7 +18,6 @@ namespace BLL.DTOs
         public IFormFile Photo { get; set; }
         [Required,Range(0,99999999)]     
         public decimal Price { get; set; }
-        [AllowNull]
         public string UserId { get; set; }
         [Required]
         public ICollection<int> CategoriesIds { get; set; }

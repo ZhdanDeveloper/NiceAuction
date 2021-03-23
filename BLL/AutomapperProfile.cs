@@ -28,14 +28,20 @@ namespace BLL
                 .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
             CreateMap<Category, CreateCategoryDTO>().ReverseMap();
-              
+
 
             CreateMap<LoginDTO, UserDTO>()
-                .ForMember(p=>p.UserName, c=>c.MapFrom(x=>x.Name))
-                .ForMember(p => p.Password, c => c.MapFrom(x => x.Password)).ReverseMap();
+                .ForMember(p => p.UserName, c => c.MapFrom(x => x.Name));
+               
+
+            CreateMap<User, LoginDTO>()
+                .ForMember(x=>x.Name, c=>c.MapFrom(x=>x.UserName));
 
             CreateMap<User, UserDTO>();
-               
+
+            CreateMap<CreateUserDTO, User>()
+                 .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+
             CreateMap<UserDTO, User>()
              .ForMember(p => p.Id, opt => opt.Ignore());
 

@@ -33,7 +33,7 @@ namespace NiceAuction
         }
 
 
-        public async Task<TokenDTO> CreateUser(UserDTO model)
+        public async Task<TokenDTO> CreateUser(CreateUserDTO model)
         {
             var UserToCreate = _mapper.Map<User>(model);
             var result = await _userManager.CreateAsync(UserToCreate, model.Password);
@@ -42,9 +42,8 @@ namespace NiceAuction
             {
                 var user = await _userManager.FindByNameAsync(model.UserName);
                 user.Role = "User";
-                _userRepository.Save();
-                return BuildToken(_mapper.Map<LoginDTO>(model));
-              
+                await _userRepository.Save();
+                return BuildToken(_mapper.Map<LoginDTO>(UserToCreate));           
             }
             else
             {

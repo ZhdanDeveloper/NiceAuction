@@ -40,7 +40,7 @@ namespace NiceAuction.Controllers
         }
 
         [HttpPost("Create")]
-        public async Task<ActionResult<TokenDTO>> CreateUser([FromBody] UserDTO userModel) 
+        public async Task<ActionResult<TokenDTO>> CreateUser([FromBody] CreateUserDTO userModel) 
         {
             var result =  await _authenticationHelper.CreateUser(userModel);
             if (result.Errors == null || result.Errors.ToList().Count < 0)
