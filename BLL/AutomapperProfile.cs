@@ -32,7 +32,10 @@ namespace BLL
 
             CreateMap<LoginDTO, ReadUserDTO>()
                 .ForMember(p => p.UserName, c => c.MapFrom(x => x.Name));
-               
+
+
+            CreateMap<CreateOrderDTO, Order>();
+            CreateMap<Order, ReadOrderDTO>();
 
             CreateMap<User, LoginDTO>()
                 .ForMember(x=>x.Name, c=>c.MapFrom(x=>x.UserName));

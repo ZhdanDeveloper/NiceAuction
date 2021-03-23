@@ -23,6 +23,8 @@ namespace BLL
             services.AddTransient<IProductCategoryRepository, ProductCategoryRepository>();
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<ICategoryRepository, CategoryRepository>();
+            services.AddTransient<IOrderRepository, OrderRepository>();
+            services.AddTransient<IOrderService, OrderService>();
             services.AddTransient<FileManager>();
 
         }
