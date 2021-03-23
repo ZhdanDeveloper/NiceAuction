@@ -36,21 +36,40 @@ namespace BLL.Services
            await _orderRepository.AddAsync(order);
            await _orderRepository.Save();
 
-           var ordertToReturn = _mapper.Map<ReadOrderDTO>(order);
-            ordertToReturn.TotalPrice = product.Price * ordertToReturn.Amount;
-            return ordertToReturn;
-
-
+           var orderToReturn = _mapper.Map<ReadOrderDTO>(order);
+           // orderToReturn.TotalPrice = product.Price * orderToReturn.Amount;
+            return orderToReturn;
         }
 
-        public Task<string> DeleteByIdAsync(int modelId)
+        public async Task<string> DeleteAsUserByIdAsync(int modelId, string CurrentUserId)
         {
-            throw new NotImplementedException();
+            var order = _orderRepository.FindAllWithDetails().FirstOrDefault(x => x.Id == modelId);
+            if (order == null || (order.Product.UserId != CurrentUserId && order.UserId != CurrentUserId))
+            {
+                throw new AuctionException("Order not found", System.Net.HttpStatusCode.NotFound);
+            }
+           
+            await _orderRepository.DeleteByIdAsync(modelId);
+            await _orderRepository.Save();
+            return $"Order {order.Product.Name} has been deleted succesfully"; 
+        }
+
+        public async Task<string> DeleteByIdAsync(int modelId)
+        {
+            var order = _orderRepository.FindAllWithDetails().FirstOrDefault(x => x.Id == modelId);
+            if (order == null)
+            {
+                throw new AuctionException("Order not found", System.Net.HttpStatusCode.NotFound);
+            }
+            await _orderRepository.DeleteByIdAsync(modelId);
+            await _orderRepository.Save();
+            return $"Order {order.Product.Name} has been deleted succesfully";
         }
 
         public IEnumerable<ReadOrderDTO> GetAll()
         {
-            throw new NotImplementedException();
+            return _mapper.Map<IEnumerable<ReadOrderDTO>>(_orderRepository.FindAllWithDetails());
+
         }
 
         public Task<ReadOrderDTO> GetByIdAsync(int id)

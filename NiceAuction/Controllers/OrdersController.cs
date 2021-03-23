@@ -28,11 +28,25 @@ namespace NiceAuction.Controllers
             _userManager = userManager;
         }
 
+
+        [HttpGet]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles ="Admin")]
+        public IActionResult GetAll()
+        {
+            return Ok(_orderService.GetAll());
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateOrder(CreateOrderDTO order)
         {
             order.UserId = _userManager.FindByNameAsync(_userManager.GetUserName(User)).Result.Id;
             return Ok(await _orderService.AddAsync(order));
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteProduct(int id)
+        {
+            return Ok(await _orderService.DeleteAsUserByIdAsync(id, _userManager.FindByNameAsync(_userManager.GetUserName(User)).Result.Id));
         }
     }
 }
