@@ -26,8 +26,6 @@ using System.Reflection;
 using Microsoft.OpenApi.Models;
 using BLL;
 using NiceAuction.Extensions;
-using NiceAuction.Filters;
-
 namespace NiceAuction
 {
     public class Startup

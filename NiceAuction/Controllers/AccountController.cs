@@ -55,8 +55,7 @@ namespace NiceAuction.Controllers
         public async Task<ActionResult<TokenDTO>> Login(LoginDTO model)
         {
            return await _authenticationHelper.Login(model);
-            
-            
+
         }
     
 

@@ -24,6 +24,13 @@ namespace NiceAuction.Controllers
             _categoryService = categoryService;
         }
 
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult GetAll()
+        {
+            return Ok(_categoryService.GetAll());
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryDTO category)
         {
@@ -35,11 +42,6 @@ namespace NiceAuction.Controllers
         {
             return Ok(await _categoryService.DeleteByIdAsync(id));
         }
-        [HttpGet]
-        [AllowAnonymous]
-        public IActionResult GetAll()
-        {
-            return Ok(_categoryService.GetAll());
-        }
+     
     }
 }

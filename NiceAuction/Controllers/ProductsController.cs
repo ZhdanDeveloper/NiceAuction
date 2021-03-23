@@ -53,6 +53,12 @@ namespace NiceAuction.Controllers
             return Ok(await _productService.AddAsync(product));
         }
 
+        [HttpPost("{categoryId}/{productId}")]
+        public async Task<IActionResult> AssignProductToCategory(int categoryId, int productId)
+        {
+            return Ok(await _productService.AssigntProductToCategory(productId, categoryId, _userManager.FindByNameAsync(_userManager.GetUserName(User)).Result.Id));
+        }
+
 
         [HttpPut("{id}")]
         public async Task<IActionResult> DeleteProduct(int id, [FromForm] UpdateProductDTO product)
@@ -60,11 +66,27 @@ namespace NiceAuction.Controllers
             return Ok(await _productService.UpdateAsUserAsync(id, _userManager.FindByNameAsync(_userManager.GetUserName(User)).Result.Id, product));
         }
 
+        [HttpDelete("{categoryId}/{productId}")]
+        public async Task<IActionResult> DeleteProductFromCategory(int categoryId, int productId)
+        {
+
+            return Ok(await _productService.DeleteProductFromCategoryById(productId, categoryId, _userManager.FindByNameAsync(_userManager.GetUserName(User)).Result.Id));
+        }
+
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProduct(int id)
         {       
             return Ok(await _productService.DeleteAsUserByIdAsync(id, _userManager.FindByNameAsync(_userManager.GetUserName(User)).Result.Id));
         }
+
+        [HttpDelete("admin/{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+        public async Task<IActionResult> DeleteProductAsAdmin(int id)
+        {
+            return Ok(await _productService.DeleteByIdAsync(id));
+        }
+
 
     }
 }

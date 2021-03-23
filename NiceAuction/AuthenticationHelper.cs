@@ -50,8 +50,6 @@ namespace NiceAuction
             {
                 return new TokenDTO { Token = "Invalid operation", Expiration = default, Errors = result.Errors};
             }
-           
-
         }
 
 

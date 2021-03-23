@@ -11,6 +11,8 @@ namespace BLL.Interfaces
     {
         public Task<string> DeleteAsUserByIdAsync(int modelId, string CurrentUserId);
         Task<ReadProductDTO> UpdateAsUserAsync(int id, string CurrentUserId, UpdateProductDTO productDTO);
+        Task<string> DeleteProductFromCategoryById(int productId, int CategoryId, string CurrentUserId);
+        Task<string> AssigntProductToCategory(int productId, int CategoryId, string CurrentUserId);
 
     }
 }
