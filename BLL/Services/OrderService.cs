@@ -37,8 +37,7 @@ namespace BLL.Services
            await _orderRepository.Save();
 
            var orderToReturn = _mapper.Map<ReadOrderDTO>(order);
-           // orderToReturn.TotalPrice = product.Price * orderToReturn.Amount;
-            return orderToReturn;
+           return orderToReturn;
         }
 
         public async Task<string> DeleteAsUserByIdAsync(int modelId, string CurrentUserId)
@@ -72,9 +71,19 @@ namespace BLL.Services
 
         }
 
-        public Task<ReadOrderDTO> GetByIdAsync(int id)
+        public async Task<ReadOrderDTO> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return _mapper.Map<ReadOrderDTO>(await _orderRepository.GetByIdWithDetailsAsync(id));
+        }
+
+        public IEnumerable<ReadOrderDTO> IncomingUserOrders(string CurrentUserId)
+        {
+            return _mapper.Map<IEnumerable<ReadOrderDTO>>(_orderRepository.FindAllWithDetails().Where(x => x.Product.UserId == CurrentUserId));
+        }
+
+        public IEnumerable<ReadOrderDTO> OutcomingUserOrders(string CurrentUserId)
+        {
+            return _mapper.Map<IEnumerable<ReadOrderDTO>>(_orderRepository.FindAllWithDetails().Where(x => x.UserId == CurrentUserId));
         }
 
         public Task<string> UpdateAsync(CreateOrderDTO model, int id)

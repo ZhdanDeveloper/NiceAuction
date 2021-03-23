@@ -9,7 +9,8 @@ namespace BLL.Interfaces
 {
     public interface IOrderService : ICrud<CreateOrderDTO, ReadOrderDTO, CreateOrderDTO>
     {
-        public Task<string> DeleteAsUserByIdAsync(int modelId, string CurrentUserId);
-
+         Task<string> DeleteAsUserByIdAsync(int modelId, string CurrentUserId);
+         IEnumerable<ReadOrderDTO> IncomingUserOrders(string CurrentUserId);
+         IEnumerable<ReadOrderDTO> OutcomingUserOrders(string CurrentUserId);
     }
 }

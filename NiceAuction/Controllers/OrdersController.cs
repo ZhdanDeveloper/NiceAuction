@@ -36,6 +36,18 @@ namespace NiceAuction.Controllers
             return Ok(_orderService.GetAll());
         }
 
+        [HttpGet("incoming")]
+        public IActionResult GetIncomingUserOrders()
+        {
+            return Ok(_orderService.IncomingUserOrders(_userManager.FindByNameAsync(_userManager.GetUserName(User)).Result.Id));
+        }
+
+        [HttpGet("outcoming")]
+        public IActionResult GetOutcomingUserOrders()
+        {
+            return Ok(_orderService.OutcomingUserOrders(_userManager.FindByNameAsync(_userManager.GetUserName(User)).Result.Id));
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateOrder(CreateOrderDTO order)
         {
@@ -47,6 +59,13 @@ namespace NiceAuction.Controllers
         public async Task<IActionResult> DeleteProduct(int id)
         {
             return Ok(await _orderService.DeleteAsUserByIdAsync(id, _userManager.FindByNameAsync(_userManager.GetUserName(User)).Result.Id));
+        }
+
+        [HttpDelete("admin/{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+        public async Task<IActionResult> DeleteProductAsAdmin(int id)
+        {
+            return Ok(await _orderService.DeleteByIdAsync(id));
         }
     }
 }
