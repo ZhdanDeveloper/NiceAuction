@@ -84,7 +84,7 @@ namespace BLL.Services
         }
 
         /// <summary>
-        /// this method returns order from the database by id 
+        /// this method updates category in database
         /// throws an exception on failure
         /// </summary>
         /// <param name="model">category model</param>

@@ -46,8 +46,13 @@ namespace BLL.Services
             await _productRepository.AddAsync(prod);
             await _productRepository.Save();
             prod.ProductCategories = new List<ProductCategory>();
+            var categories = _categoryRepository.FindAll();
             foreach (var item in model.CategoriesIds)
             {
+                if (!categories.Contains(categories.FirstOrDefault(x=>x.Id == item)))
+                {
+                    throw new AuctionException("one of categories does not exist", System.Net.HttpStatusCode.BadRequest);
+                }
                 prod.ProductCategories.Add(new ProductCategory { ProductId = prod.Id, CategoryId = item });
             }
             _productRepository.Update(prod);
@@ -122,10 +127,16 @@ namespace BLL.Services
             return _mapper.Map<ReadProductDTO>(await _productRepository.GetByIdWithDetailsAsync(id));
         }
 
+        /// <summary>
+        /// this method updates product in database
+        /// throws an exception on failure
+        /// </summary>
+        /// <param name="model">category model</param>
+        /// <param name="id">category id</param> 
         public async Task<ReadProductDTO> UpdateAsUserAsync(int id, string CurrentUserId, UpdateProductDTO productDTO)
         {
-            var product = await _productRepository.GetByIdAsync(id);
-
+            var product = await _productRepository.GetByIdWithDetailsAsync(id);
+            
             if (product == null || CurrentUserId != product.UserId)
             {
                 throw new AuctionException("Product not found", System.Net.HttpStatusCode.NotFound);
@@ -137,7 +148,7 @@ namespace BLL.Services
                     _fileManager.DeleteImage(product.PhotoPath);
                     product.PhotoPath = photopath;
                 }
-               
+            
                  product = _mapper.Map(productDTO, product);
                  product.UserId = CurrentUserId;
                 _productRepository.Update(product);

@@ -24,30 +24,31 @@ namespace BLL
               .ForMember(p=>p.OwnerName, c=>c.MapFrom(x=>x.User.UserName));
 
             CreateMap<UpdateProductDTO, Product>()
-                .ForMember(x => x.Id, opt => opt.Ignore()).ReverseMap()
+                .ForMember(x => x.Id, opt => opt.Ignore())
                 .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
             CreateMap<Category, CreateCategoryDTO>().ReverseMap();
 
-
             CreateMap<LoginDTO, ReadUserDTO>()
                 .ForMember(p => p.UserName, c => c.MapFrom(x => x.Name));
 
-
-            CreateMap<CreateOrderDTO, Order>();
-            CreateMap<Order, ReadOrderDTO>()
-            .ForMember(x => x.TotalPrice, c => c.MapFrom(x => x.Product.Price * x.Amount));
+            CreateMap<User, ReadUserDTO>();
 
             CreateMap<User, LoginDTO>()
-                .ForMember(x=>x.Name, c=>c.MapFrom(x=>x.UserName));
-
-            CreateMap<User, ReadUserDTO>();
+              .ForMember(x => x.Name, c => c.MapFrom(x => x.UserName));
 
             CreateMap<CreateUserDTO, User>()
                  .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
             CreateMap<ReadUserDTO, User>()
              .ForMember(p => p.Id, opt => opt.Ignore());
+
+            CreateMap<CreateOrderDTO, Order>();
+
+            CreateMap<Order, ReadOrderDTO>()
+            .ForMember(x => x.TotalPrice, c => c.MapFrom(x => x.Product.Price * x.Amount));
+
+          
 
         }
 

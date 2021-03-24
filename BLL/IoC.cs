@@ -26,7 +26,7 @@ namespace BLL
             services.AddTransient<IOrderRepository, OrderRepository>();
             services.AddTransient<IOrderService, OrderService>();
             services.AddTransient<FileManager>();
-
+        
         }
 
 

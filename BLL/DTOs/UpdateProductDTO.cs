@@ -13,7 +13,7 @@ namespace BLL.DTOs
         public string Name { get; set; }
         public string Description { get; set; }
         public IFormFile Photo { get; set; }
-        [Required, Range(0, 99999999)]
+        [Range(3, 99999999)]
         public decimal Price { get; set; }
         public string UserId { get; set; }
     }
