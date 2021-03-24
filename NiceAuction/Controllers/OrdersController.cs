@@ -42,27 +42,43 @@ namespace NiceAuction.Controllers
         }
 
         /// <summary>
-        /// receiving incoming user orders
+        /// receiving all incoming user orders if name != null else receiving all outcoming user orders by name
         /// </summary>
         /// <response code="200">orders received successfully</response>
         /// <response code="401">user is not logged in</response> 
         [HttpGet("incoming")]
-        public IActionResult GetIncomingUserOrders()
+        public IActionResult GetIncomingUserOrders(string name)
         {
+
             var userId = _userManager.GetUserId(User);
+            if (name != null)
+            {
+                return Ok(_orderService.IncomingUserOrdersByProductName(userId, name));
+            }
             return Ok(_orderService.IncomingUserOrders(userId));
         }
 
+
+
         /// <summary>
-        /// receiving outcoming user orders
+        /// receiving all outcoming user orders if name != null else receiving all outcoming user orders by name
         /// </summary>
+        /// <param name="name">product name</param>
         /// <response code="200">orders received successfully</response>
         /// <response code="401">user is not logged in</response> 
         [HttpGet("outcoming")]
-        public IActionResult GetOutcomingUserOrders()
+        public IActionResult GetOutcomingUserOrdersByName(string name)
         {
-            return Ok(_orderService.OutcomingUserOrders(_userManager.FindByNameAsync(_userManager.GetUserName(User)).Result.Id));
+            var userId = _userManager.GetUserId(User);
+            if (name != null)
+            {
+                return Ok(_orderService.OutcomingUserOrdersByProductName(userId, name));
+            }
+            return Ok(_orderService.OutcomingUserOrders(userId));
+
+
         }
+
 
         /// <summary>
         /// order creation
@@ -88,7 +104,7 @@ namespace NiceAuction.Controllers
         /// <response code="401">user is not logged in</response>
         /// <response code="404">The order was not found or does not belong to the current user or you are not the seller of this product</response> 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteProduct(int id)
+        public async Task<IActionResult> DeleteOrder(int id)
         {
             var userId =  _userManager.GetUserId(User);
             return Ok(await _orderService.DeleteAsUserByIdAsync(id, userId));

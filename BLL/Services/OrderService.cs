@@ -93,7 +93,7 @@ namespace BLL.Services
         }
 
         /// <summary>
-        /// this method returns orders from the database by id 
+        /// this method returns order from the database by id 
         /// </summary>
         /// <param name="id">order id</param>
         public async Task<ReadOrderDTO> GetByIdAsync(int id)
@@ -111,12 +111,32 @@ namespace BLL.Services
         }
 
         /// <summary>
+        /// this method returns the products that were ordered from the current user by product name
+        /// </summary>
+        /// <param name="CurrentUserId">current user id</param>
+        /// <param name="Name">current user name</param>
+        public IEnumerable<ReadOrderDTO> IncomingUserOrdersByProductName(string CurrentUserId, string Name)
+        {
+            return _mapper.Map<IEnumerable<ReadOrderDTO>>(_orderRepository.FindAllWithDetails().Where(x => x.Product.UserId == CurrentUserId && x.Product.Name.Contains(Name)));
+        }
+
+        /// <summary>
         /// this method returns products that have been ordered by the current user
         /// </summary>
         /// <param name="CurrentUserId">current user id</param>
         public IEnumerable<ReadOrderDTO> OutcomingUserOrders(string CurrentUserId)
         {
             return _mapper.Map<IEnumerable<ReadOrderDTO>>(_orderRepository.FindAllWithDetails().Where(x => x.UserId == CurrentUserId));
+        }
+
+        /// <summary>
+        /// this method returns products that have been ordered by the current user by product name
+        /// </summary>
+        /// <param name="CurrentUserId">current user id</param>
+        /// <param name="Name">current user name</param>
+        public IEnumerable<ReadOrderDTO> OutcomingUserOrdersByProductName(string CurrentUserId, string Name)
+        {
+            return _mapper.Map<IEnumerable<ReadOrderDTO>>(_orderRepository.FindAllWithDetails().Where(x => x.UserId == CurrentUserId && x.Product.Name.Contains(Name)));
         }
 
         public Task<string> UpdateAsync(CreateOrderDTO model, int id)

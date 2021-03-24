@@ -18,7 +18,9 @@ namespace BLL.Services
         private readonly ICategoryRepository _categoryRepository;
         private readonly IMapper _mapper;
 
-
+        /// <summary>
+        /// Injecting repositories
+        /// </summary>
         public CategoryService(ICategoryRepository categoryRepository, IMapper mapper)
         {
             _categoryRepository = categoryRepository;
@@ -64,16 +66,29 @@ namespace BLL.Services
             return $"Deleted, name :{category.Name}, id : {category.Id}";
         }
 
+        /// <summary>
+        /// this method returns all categories from the database
+        /// </summary>
         public IEnumerable<Category> GetAll()
         {
             return _categoryRepository.FindAll();
         }
 
+        /// <summary>
+        /// this method returns order from the database by id 
+        /// </summary>
+        /// <param name="id">category id</param>
         public async Task<Category> GetByIdAsync(int id)
         {
             return await _categoryRepository.GetByIdAsync(id);
         }
 
+        /// <summary>
+        /// this method returns order from the database by id 
+        /// throws an exception on failure
+        /// </summary>
+        /// <param name="model">category model</param>
+        /// <param name="id">category id</param> 
         public async Task<string> UpdateAsync(CreateCategoryDTO model, int id)
         {
             var category = await _categoryRepository.GetByIdAsync(id);

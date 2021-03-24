@@ -22,6 +22,9 @@ namespace BLL.Services
         private readonly ICategoryRepository _categoryRepository;
         private readonly IMapper _mapper;
 
+        /// <summary>
+        /// Injecting repositories
+        /// </summary>
         public ProductService(FileManager fileManager, IProductRepository productRepository, IMapper mapper, IProductCategoryRepository productCategoryRepository, ICategoryRepository categoryRepository)
         {
             _fileManager = fileManager;
@@ -31,6 +34,11 @@ namespace BLL.Services
             _categoryRepository = categoryRepository;
         }
 
+        /// <summary>
+        /// this method adds the product to the database
+        /// throws an exception on failure
+        /// </summary>
+        /// <param name="model">product model</param>
         public async Task<ReadProductDTO> AddAsync(CreateProductDTO model)
         {
             var prod = _mapper.Map<Product>(model);
@@ -49,6 +57,12 @@ namespace BLL.Services
            
         }
 
+        /// <summary>
+        /// this method delets the product by id from the database, and checks if current user is owner of product
+        /// throws an exception on failure
+        /// </summary>
+        /// <param name="modelId">order id</param>
+        /// <param name="CurrentUserId">user id</param>
         public async Task<string> DeleteAsUserByIdAsync(int modelId, string CurrentUserId)
         {
             var product = await _productRepository.GetByIdAsync(modelId);
@@ -71,6 +85,11 @@ namespace BLL.Services
 
         }
 
+        /// <summary>
+        /// this method delets the order by id from the database
+        /// throws an exception on failure
+        /// </summary>
+        /// <param name="modelId">order id</param>
         public async Task<string> DeleteByIdAsync(int modelId)
         {
             var product = await _productRepository.GetByIdAsync(modelId);
@@ -85,11 +104,19 @@ namespace BLL.Services
 
         }
 
+        /// <summary>
+        /// this method returns all products from the database
+        /// </summary>
         public IEnumerable<ReadProductDTO> GetAll()
         {
             return _mapper.Map<List<ReadProductDTO>>(_productRepository.FindAllWithDetails());
         }
 
+
+        /// <summary>
+        /// this method returns product from the database by id 
+        /// </summary>
+        /// <param name="id">order id</param>
         public async Task<ReadProductDTO> GetByIdAsync(int id)
         {
             return _mapper.Map<ReadProductDTO>(await _productRepository.GetByIdWithDetailsAsync(id));
@@ -120,6 +147,13 @@ namespace BLL.Services
                return _mapper.Map<ReadProductDTO>(product);
         }
 
+        /// <summary>
+        /// this method delets product from the category
+        /// </summary>
+        /// <param name="productId">product id</param>
+        /// <param name="CategoryId">category id</param>
+        /// <param name="CurrentUserId">category id</param>
+
         public async Task<string> DeleteProductFromCategoryById(int productId, int CategoryId, string CurrentUserId)
         {
             var product = await _productRepository.GetByIdAsync(productId);
@@ -143,6 +177,12 @@ namespace BLL.Services
 
         }
 
+        /// <summary>
+        /// this method adds product to category the category
+        /// </summary>
+        /// <param name="productId">product id</param>
+        /// <param name="CategoryId">category id</param>
+        /// <param name="CurrentUserId">category id</param>
         public async Task<string> AssignProductToCategory(int productId, int CategoryId, string CurrentUserId)
         {
             var product = await _productRepository.GetByIdAsync(productId);
@@ -168,6 +208,11 @@ namespace BLL.Services
             await _productCategoryRepository.Save();
             return $"Product {product.Name} has been assign to category {category.Name}";
         }
+
+        /// <summary>
+        /// this method returns product from the database by name
+        /// </summary>
+        /// <param name="Name">order id</param>
         public IEnumerable<ReadProductDTO> SearchByName(string Name)
         {
            return _mapper.Map<IEnumerable<ReadProductDTO>>(_productRepository.FindAll().Where(x => x.Name.Contains(Name)));
