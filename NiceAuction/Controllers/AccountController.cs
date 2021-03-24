@@ -31,7 +31,7 @@ namespace NiceAuction.Controllers
 
 
         [HttpGet("CurrentUser")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> GetCurrentUser()
         {
             var user = await _authenticationHelper.GetCurrentUserByName(User.Identity.Name);
@@ -50,6 +50,12 @@ namespace NiceAuction.Controllers
             return BadRequest(result.Errors);
         }
 
+        [HttpDelete]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme,Roles ="Admin")]
+        public async Task<ActionResult<string>> DeleteUser(string UserId)
+        {
+            return Ok(await _authenticationHelper.DeleteUserById(UserId));
+        }
 
         [HttpPost("Login")]
         public async Task<ActionResult<TokenDTO>> Login(LoginDTO model)

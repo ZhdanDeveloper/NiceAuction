@@ -8,7 +8,6 @@ namespace BLL.DTOs
 {
     public class ReadUserDTO
     {
-
         public string Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -16,6 +15,5 @@ namespace BLL.DTOs
         public string Role { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
-        public decimal Balance { get; set; }
     }
 }

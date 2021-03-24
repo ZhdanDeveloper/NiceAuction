@@ -15,8 +15,6 @@ namespace DAL.Entities
         public string LastName { get; set; }
         [Required, MaxLength(50), MinLength(9)]
         public string Phone { get; set; }
-        [Column(TypeName = "decimal(8,2)")]
-        public decimal Balance { get; set; }
         public string Role { get; set; }
         public ICollection<Order> Orders { get; set; }
 

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BLL.DTOs;
+using BLL.Exceptions;
 using DAL.Entities;
 using DAL.Interfaces;
 using Microsoft.AspNetCore.Identity;
@@ -47,6 +48,7 @@ namespace NiceAuction
             }
             else
             {
+                
                 return new TokenDTO { Token = "Invalid operation", Expiration = default, Errors = result.Errors};
             }
         }
@@ -66,6 +68,17 @@ namespace NiceAuction
         }
 
 
+        public async Task<string> DeleteUserById(string Id)
+        {
+            var user = await _userManager.FindByIdAsync(Id);
+            if (user != null)
+            {
+               await _userManager.DeleteAsync(user);
+               return $"user with id : {user.Id} has been deleted succesfully";
+            }
+            throw new AuctionException("user not found", System.Net.HttpStatusCode.NotFound);
+           
+        }
 
         public async Task<ReadUserDTO> GetCurrentUserByName(string Name)
         {

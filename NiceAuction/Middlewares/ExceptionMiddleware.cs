@@ -24,6 +24,10 @@ namespace NiceAuction.Extensions
             {
                 await _next(httpContext);
             }
+            catch (NullReferenceException ex)
+            {
+                await HandleNullReferenceExceptionAsync(httpContext, ex);
+            }
             catch (AuctionException ex)
             {
                 await HandleExceptionAsync(httpContext, ex);
@@ -40,7 +44,18 @@ namespace NiceAuction.Extensions
 
             }.ToString());
         }
- 
+        private Task HandleNullReferenceExceptionAsync(HttpContext context, NullReferenceException exception)
+        {
+            context.Response.ContentType = "application/json";
+            context.Response.StatusCode = (int)HttpStatusCode.NotFound;
+            return context.Response.WriteAsync(new ErrorDetailsDTO
+            {
+                StatusCode = context.Response.StatusCode,
+                Message = "object not found"
+
+            }.ToString());
+        }
+
     }
-    
+
 }
