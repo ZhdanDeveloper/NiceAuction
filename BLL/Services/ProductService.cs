@@ -45,6 +45,7 @@ namespace BLL.Services
             prod.PhotoPath = await _fileManager.SaveImage(model.Photo);
             await _productRepository.AddAsync(prod);
             await _productRepository.Save();
+            prod = await _productRepository.GetByIdWithDetailsAsync(prod.Id);
             prod.ProductCategories = new List<ProductCategory>();
             var categories = _categoryRepository.FindAll();
             foreach (var item in model.CategoriesIds)
@@ -226,7 +227,7 @@ namespace BLL.Services
         /// <param name="Name">order id</param>
         public IEnumerable<ReadProductDTO> SearchByName(string Name)
         {
-           return _mapper.Map<IEnumerable<ReadProductDTO>>(_productRepository.FindAll().Where(x => x.Name.Contains(Name)));
+           return _mapper.Map<IEnumerable<ReadProductDTO>>(_productRepository.FindAllWithDetails().Where(x => x.Name.Contains(Name)));
         }
 
         public Task<string> UpdateAsync(UpdateProductDTO model, int id)

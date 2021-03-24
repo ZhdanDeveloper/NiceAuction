@@ -352,7 +352,7 @@ namespace DAL.Migrations
             modelBuilder.Entity("DAL.Entities.Product", b =>
                 {
                     b.HasOne("DAL.Entities.User", "User")
-                        .WithMany()
+                        .WithMany("Products")
                         .HasForeignKey("UserId");
 
                     b.Navigation("User");
@@ -438,6 +438,8 @@ namespace DAL.Migrations
             modelBuilder.Entity("DAL.Entities.User", b =>
                 {
                     b.Navigation("Orders");
+
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

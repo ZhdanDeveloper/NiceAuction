@@ -34,16 +34,15 @@ namespace NiceAuction
         {
             Configuration = configuration;
         }
-
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
 
-
-
-
+            services.AddServices();
+            services.AddAutoMapper();
+            services.AddTransient<AuthenticationHelper>();
 
             services.AddSwaggerGen(s =>
             {
@@ -74,12 +73,10 @@ namespace NiceAuction
                     Array.Empty<string>()
                 }
                 });
+                
+
 
             });
-           
-            services.AddServices();
-            services.AddAutoMapper();
-            services.AddTransient<AuthenticationHelper>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(opt=>
@@ -99,7 +96,15 @@ namespace NiceAuction
             services.AddDbContext<NiceAuctionContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<User, IdentityRole>()
+            services.AddIdentity<User, IdentityRole>(o=>
+            {
+                   o.Password.RequireDigit = true;
+                   o.Password.RequireLowercase = false;
+                   o.Password.RequireUppercase = false;
+                   o.Password.RequireNonAlphanumeric = false;
+                   o.Password.RequiredLength = 6;
+                   o.User.RequireUniqueEmail = true;
+            })
                 .AddEntityFrameworkStores<NiceAuctionContext>()
                 .AddDefaultTokenProviders();
         }

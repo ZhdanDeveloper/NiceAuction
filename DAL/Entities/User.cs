@@ -17,6 +17,7 @@ namespace DAL.Entities
         public string Phone { get; set; }
         public string Role { get; set; }
         public ICollection<Order> Orders { get; set; }
+        public ICollection<Product> Products { get; set; }
 
     }
 }

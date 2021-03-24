@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(NiceAuctionContext))]
-    [Migration("20210320215428_added Role to user")]
-    partial class addedRoletouser
+    [Migration("20210324203000_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -45,11 +45,11 @@ namespace DAL.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("Amount")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<decimal>("OrderValue")
-                        .HasColumnType("decimal(8,2)");
 
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
@@ -86,7 +86,7 @@ namespace DAL.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(8,2)");
+                        .HasColumnType("decimal(10,2)");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
@@ -127,9 +127,6 @@ namespace DAL.Migrations
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
-
-                    b.Property<decimal>("Balance")
-                        .HasColumnType("decimal(8,2)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -357,7 +354,7 @@ namespace DAL.Migrations
             modelBuilder.Entity("DAL.Entities.Product", b =>
                 {
                     b.HasOne("DAL.Entities.User", "User")
-                        .WithMany()
+                        .WithMany("Products")
                         .HasForeignKey("UserId");
 
                     b.Navigation("User");
@@ -443,6 +440,8 @@ namespace DAL.Migrations
             modelBuilder.Entity("DAL.Entities.User", b =>
                 {
                     b.Navigation("Orders");
+
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }
