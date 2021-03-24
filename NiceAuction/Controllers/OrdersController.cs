@@ -49,7 +49,8 @@ namespace NiceAuction.Controllers
         [HttpGet("incoming")]
         public IActionResult GetIncomingUserOrders()
         {
-            return Ok(_orderService.IncomingUserOrders(_userManager.FindByNameAsync(_userManager.GetUserName(User)).Result.Id));
+            var userId = _userManager.GetUserId(User);
+            return Ok(_orderService.IncomingUserOrders(userId));
         }
 
         /// <summary>
@@ -74,7 +75,7 @@ namespace NiceAuction.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateOrder(CreateOrderDTO order)
         {
-            order.UserId = _userManager.FindByNameAsync(_userManager.GetUserName(User)).Result.Id;
+            order.UserId = _userManager.GetUserId(User);
             return Ok(await _orderService.AddAsync(order));
         }
 
@@ -89,7 +90,8 @@ namespace NiceAuction.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProduct(int id)
         {
-            return Ok(await _orderService.DeleteAsUserByIdAsync(id, _userManager.FindByNameAsync(_userManager.GetUserName(User)).Result.Id));
+            var userId =  _userManager.GetUserId(User);
+            return Ok(await _orderService.DeleteAsUserByIdAsync(id, userId));
         }
 
         /// <summary> 

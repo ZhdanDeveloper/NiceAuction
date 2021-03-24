@@ -77,7 +77,8 @@ namespace NiceAuction.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateProduct([FromForm] CreateProductDTO product)
         {
-            product.UserId = _userManager.FindByNameAsync(_userManager.GetUserName(User)).Result.Id;
+           
+            product.UserId = _userManager.GetUserId(User);
             return Ok(await _productService.AddAsync(product));
         }
 
@@ -92,7 +93,8 @@ namespace NiceAuction.Controllers
         [HttpPost("{productId}/categories/{categoryId}")]
         public async Task<IActionResult> AssignProductToCategory(int productId, int categoryId)
         {
-            return Ok(await _productService.AssignProductToCategory(productId, categoryId, _userManager.FindByNameAsync(_userManager.GetUserName(User)).Result.Id));
+            var userId =  _userManager.GetUserId(User);
+            return Ok(await _productService.AssignProductToCategory(productId, categoryId, userId));
         }
 
         /// <summary>
@@ -104,9 +106,10 @@ namespace NiceAuction.Controllers
         /// <response code="401">user is not logged in</response>
         /// <response code="404">product not found or does not belong to the current user</response>
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateProduct(int id, [FromForm] UpdateProductDTO product)
+        public async Task<IActionResult> UpdateProductAsUser(int id, [FromForm] UpdateProductDTO product)
         {
-            return Ok(await _productService.UpdateAsUserAsync(id, _userManager.FindByNameAsync(_userManager.GetUserName(User)).Result.Id, product));
+            var userId = _userManager.GetUserId(User);
+            return Ok(await _productService.UpdateAsUserAsync(id, userId, product));
         }
 
 
@@ -121,8 +124,8 @@ namespace NiceAuction.Controllers
         [HttpDelete("{productId}/categories/{categoryId}")]
         public async Task<IActionResult> DeleteProductFromCategory(int productId, int categoryId)
         {
-
-            return Ok(await _productService.DeleteProductFromCategoryById(productId, categoryId, _userManager.FindByNameAsync(_userManager.GetUserName(User)).Result.Id));
+            var userId = _userManager.GetUserId(User);
+            return Ok(await _productService.DeleteProductFromCategoryById(productId, categoryId, userId));
         }
 
         /// <summary>
@@ -134,8 +137,9 @@ namespace NiceAuction.Controllers
         /// <response code="404">product not found or does not belong to the current user</response>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProduct(int id)
-        {       
-            return Ok(await _productService.DeleteAsUserByIdAsync(id, _userManager.FindByNameAsync(_userManager.GetUserName(User)).Result.Id));
+        {
+            var userId = _userManager.GetUserId(User);
+            return Ok(await _productService.DeleteAsUserByIdAsync(id, userId));
         }
 
         /// <summary>

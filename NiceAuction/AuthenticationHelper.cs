@@ -96,6 +96,7 @@ namespace NiceAuction
             var claims = new List<Claim>()
             {
                 new Claim(ClaimTypes.Name, model.Name),
+                 new Claim(ClaimTypes.NameIdentifier, user.Id),
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.Role, user.Role)
 

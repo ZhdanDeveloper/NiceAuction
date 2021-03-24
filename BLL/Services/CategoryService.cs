@@ -25,6 +25,12 @@ namespace BLL.Services
             _mapper = mapper;
         }
 
+
+        /// <summary>
+        /// this method adds a new category to the database
+        /// throws an exception on failure
+        /// </summary>
+        /// <param name="model">category model</param>
         public async Task<Category> AddAsync(CreateCategoryDTO model)
         {
             bool CategoryIsExist = _categoryRepository.FindAll().FirstOrDefault(x => x.Name == model.Name) != null;
@@ -40,6 +46,11 @@ namespace BLL.Services
             return category;
         }
 
+        /// <summary>
+        /// this method delets the category by id from the database
+        /// throws an exception on failure
+        /// </summary>
+        /// <param name="modelId">category id</param>
         public async Task<string> DeleteByIdAsync(int modelId)
         {
             var category = await _categoryRepository.GetByIdAsync(modelId);
