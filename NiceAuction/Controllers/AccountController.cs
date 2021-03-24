@@ -29,7 +29,10 @@ namespace NiceAuction.Controllers
             _authenticationHelper = authenticationHelper;
         }
 
-
+        /// <summary>
+        /// getting the current user
+        /// </summary>
+        /// <response code="200">user got successfully</response>
         [HttpGet("CurrentUser")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> GetCurrentUser()
@@ -39,6 +42,12 @@ namespace NiceAuction.Controllers
             return Ok(user);
         }
 
+        /// <summary>
+        /// User registration 
+        /// </summary>
+        /// <param name="model">user model</param>
+        /// <response code="200">user created successfully</response>
+        /// <response code="400">incorrect data entry</response> 
         [HttpPost("Create")]
         public async Task<ActionResult<TokenDTO>> CreateUser([FromBody] CreateUserDTO userModel) 
         {
@@ -50,13 +59,26 @@ namespace NiceAuction.Controllers
             return BadRequest(result.Errors);
         }
 
+        /// <summary>
+        /// account deleting
+        /// </summary>
+        /// <param name="UserId">Id of user</param>
+        /// <response code="200">User has been deleted</response>
+        /// <response code="401">user is not logged in</response> 
+        /// <response code="403">User does not have administrator rights</response> 
         [HttpDelete]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme,Roles ="Admin")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles ="Admin")]
         public async Task<ActionResult<string>> DeleteUser(string UserId)
         {
             return Ok(await _authenticationHelper.DeleteUserById(UserId));
         }
 
+        /// <summary>
+        /// authorization
+        /// </summary>
+        /// <param name="model">login model </param>
+        /// <response code="200">user successfully received a token</response>
+        /// <response code="400">incorrect data entry</response> 
         [HttpPost("Login")]
         public async Task<ActionResult<TokenDTO>> Login(LoginDTO model)
         {

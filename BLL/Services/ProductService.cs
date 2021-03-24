@@ -99,12 +99,11 @@ namespace BLL.Services
         {
             var product = await _productRepository.GetByIdAsync(id);
 
-            if (product == null)
+            if (product == null || CurrentUserId != product.UserId)
             {
                 throw new AuctionException("Product not found", System.Net.HttpStatusCode.NotFound);
             }
-            if (CurrentUserId == product.UserId)
-            {
+
                 var photopath = productDTO.Photo == null ? null : await _fileManager.SaveImage(productDTO.Photo);
                 if (photopath != null)
                 {
@@ -117,8 +116,8 @@ namespace BLL.Services
                 _productRepository.Update(product);
                  await _productRepository.Save();
               
-            }
-            return _mapper.Map<ReadProductDTO>(product);
+            
+               return _mapper.Map<ReadProductDTO>(product);
         }
 
         public async Task<string> DeleteProductFromCategoryById(int productId, int CategoryId, string CurrentUserId)

@@ -33,7 +33,7 @@ namespace NiceAuction
             _userRepository = userRepository;
         }
 
-
+     
         public async Task<TokenDTO> CreateUser(CreateUserDTO model)
         {
             var UserToCreate = _mapper.Map<User>(model);
