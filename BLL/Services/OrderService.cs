@@ -53,11 +53,11 @@ namespace BLL.Services
         /// throws an exception on failure
         /// </summary>
         /// <param name="modelId">order id</param>
-        /// <param name="CurrentUserId">user id</param>
-        public async Task<string> DeleteAsUserByIdAsync(int modelId, string CurrentUserId)
+        /// <param name="currentUserId">user id</param>
+        public async Task<string> DeleteAsUserByIdAsync(int modelId, string currentUserId)
         {
             var order = _orderRepository.FindAllWithDetails().FirstOrDefault(x => x.Id == modelId);
-            if (order == null || (order.Product.UserId != CurrentUserId && order.UserId != CurrentUserId))
+            if (order == null || (order.Product.UserId != currentUserId && order.UserId != currentUserId))
             {
                 throw new AuctionException("Order not found", System.Net.HttpStatusCode.NotFound);
             }
@@ -104,39 +104,39 @@ namespace BLL.Services
         /// <summary>
         /// this method returns the products that were ordered from the current user
         /// </summary>
-        /// <param name="CurrentUserId">current user id</param>
-        public IEnumerable<ReadOrderDTO> IncomingUserOrders(string CurrentUserId)
+        /// <param name="currentUserId">current user id</param>
+        public IEnumerable<ReadOrderDTO> IncomingUserOrders(string currentUserId)
         {
-            return _mapper.Map<IEnumerable<ReadOrderDTO>>(_orderRepository.FindAllWithDetails().Where(x => x.Product.UserId == CurrentUserId));
+            return _mapper.Map<IEnumerable<ReadOrderDTO>>(_orderRepository.FindAllWithDetails().Where(x => x.Product.UserId == currentUserId));
         }
 
         /// <summary>
         /// this method returns the products that were ordered from the current user by product name
         /// </summary>
-        /// <param name="CurrentUserId">current user id</param>
-        /// <param name="Name">current user name</param>
-        public IEnumerable<ReadOrderDTO> IncomingUserOrdersByProductName(string CurrentUserId, string Name)
+        /// <param name="currentUserId">current user id</param>
+        /// <param name="name">current user name</param>
+        public IEnumerable<ReadOrderDTO> IncomingUserOrdersByProductName(string currentUserId, string name)
         {
-            return _mapper.Map<IEnumerable<ReadOrderDTO>>(_orderRepository.FindAllWithDetails().Where(x => x.Product.UserId == CurrentUserId && x.Product.Name.Contains(Name)));
+            return _mapper.Map<IEnumerable<ReadOrderDTO>>(_orderRepository.FindAllWithDetails().Where(x => x.Product.UserId == currentUserId && x.Product.Name.Contains(name)));
         }
 
         /// <summary>
         /// this method returns products that have been ordered by the current user
         /// </summary>
-        /// <param name="CurrentUserId">current user id</param>
-        public IEnumerable<ReadOrderDTO> OutcomingUserOrders(string CurrentUserId)
+        /// <param name="currentUserId">current user id</param>
+        public IEnumerable<ReadOrderDTO> OutcomingUserOrders(string currentUserId)
         {
-            return _mapper.Map<IEnumerable<ReadOrderDTO>>(_orderRepository.FindAllWithDetails().Where(x => x.UserId == CurrentUserId));
+            return _mapper.Map<IEnumerable<ReadOrderDTO>>(_orderRepository.FindAllWithDetails().Where(x => x.UserId == currentUserId));
         }
 
         /// <summary>
         /// this method returns products that have been ordered by the current user by product name
         /// </summary>
-        /// <param name="CurrentUserId">current user id</param>
-        /// <param name="Name">current user name</param>
-        public IEnumerable<ReadOrderDTO> OutcomingUserOrdersByProductName(string CurrentUserId, string Name)
+        /// <param name="currentUserId">current user id</param>
+        /// <param name="name">current user name</param>
+        public IEnumerable<ReadOrderDTO> OutcomingUserOrdersByProductName(string currentUserId, string name)
         {
-            return _mapper.Map<IEnumerable<ReadOrderDTO>>(_orderRepository.FindAllWithDetails().Where(x => x.UserId == CurrentUserId && x.Product.Name.Contains(Name)));
+            return _mapper.Map<IEnumerable<ReadOrderDTO>>(_orderRepository.FindAllWithDetails().Where(x => x.UserId == currentUserId && x.Product.Name.Contains(name)));
         }
 
         public Task<string> UpdateAsync(CreateOrderDTO model, int id)

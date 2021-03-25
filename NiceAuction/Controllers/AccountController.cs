@@ -62,15 +62,15 @@ namespace NiceAuction.Controllers
         /// <summary>
         /// account deleting
         /// </summary>
-        /// <param name="UserId">Id of user</param>
+        /// <param name="userId">Id of user</param>
         /// <response code="200">User has been deleted</response>
         /// <response code="401">user is not logged in</response> 
         /// <response code="403">User does not have administrator rights</response> 
         [HttpDelete]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles ="Admin")]
-        public async Task<ActionResult<string>> DeleteUser(string UserId)
+        public async Task<ActionResult<string>> DeleteUser(string userId)
         {
-            return Ok(await _authenticationHelper.DeleteUserById(UserId));
+            return Ok(await _authenticationHelper.DeleteUserById(userId));
         }
 
         /// <summary>

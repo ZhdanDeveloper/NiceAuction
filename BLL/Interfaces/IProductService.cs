@@ -9,11 +9,11 @@ namespace BLL.Interfaces
 {
     public interface IProductService : ICrud<CreateProductDTO, ReadProductDTO, UpdateProductDTO>
     {
-        Task<string> DeleteAsUserByIdAsync(int modelId, string CurrentUserId);
-        Task<ReadProductDTO> UpdateAsUserAsync(int id, string CurrentUserId, UpdateProductDTO productDTO);
-        Task<string> DeleteProductFromCategoryByIdAsync(int productId, int CategoryId, string CurrentUserId);
-        Task<string> AssignProductToCategoryAsync(int productId, int CategoryId, string CurrentUserId);
-        IEnumerable<ReadProductDTO> SearchByName(string Name);
+        Task<string> DeleteAsUserByIdAsync(int modelId, string currentUserId);
+        Task<ReadProductDTO> UpdateAsUserAsync(int id, string currentUserId, UpdateProductDTO productDTO);
+        Task<string> DeleteProductFromCategoryByIdAsync(int productId, int categoryId, string currentUserId);
+        Task<string> AssignProductToCategoryAsync(int productId, int categoryId, string currentUserId);
+        IEnumerable<ReadProductDTO> SearchByName(string name);
 
     }
 }

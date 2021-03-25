@@ -59,13 +59,13 @@ namespace NiceAuction.Controllers
         /// <summary>
         /// receiving product by name
         /// </summary>
-        /// <param name="Name">product name</param>
+        /// <param name="name">product name</param>
         /// <response code="200">product received successfully</response> 
         [AllowAnonymous]
         [HttpGet("search")]
-        public IActionResult GetByName([FromQuery]string Name)
+        public IActionResult GetByName([FromQuery]string name)
         {
-            return Ok(_productService.SearchByName(Name));
+            return Ok(_productService.SearchByName(name));
         }
 
         /// <summary>
