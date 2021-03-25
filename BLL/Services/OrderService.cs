@@ -98,7 +98,12 @@ namespace BLL.Services
         /// <param name="id">order id</param>
         public async Task<ReadOrderDTO> GetByIdAsync(int id)
         {
-            return _mapper.Map<ReadOrderDTO>(await _orderRepository.GetByIdWithDetailsAsync(id));
+            var order = await _orderRepository.GetByIdWithDetailsAsync(id);
+            if (order == null)
+            {
+                throw new AuctionException("Order not found", System.Net.HttpStatusCode.NotFound);
+            }
+            return _mapper.Map<ReadOrderDTO>(order);
         }
 
         /// <summary>

@@ -50,10 +50,10 @@ namespace NiceAuction.Controllers
         /// <response code="200">product received successfully</response> 
         /// <response code="404">product not found</response> 
         [AllowAnonymous]
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+        [HttpGet("{productId}")]
+        public async Task<IActionResult> GetById(int productId)
         {
-            return Ok(await _productService.GetByIdAsync(id));
+            return Ok(await _productService.GetByIdAsync(productId));
         }
 
         /// <summary>
@@ -105,11 +105,11 @@ namespace NiceAuction.Controllers
         /// <response code="200">product updated successfully</response> 
         /// <response code="401">user is not logged in</response>
         /// <response code="404">product not found or does not belong to the current user</response>
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateProductAsUser(int id, [FromForm] UpdateProductDTO product)
+        [HttpPut("{productId}")]
+        public async Task<IActionResult> UpdateProductAsUser(int productId, [FromForm] UpdateProductDTO product)
         {
             var userId = _userManager.GetUserId(User);
-            return Ok(await _productService.UpdateAsUserAsync(id, userId, product));
+            return Ok(await _productService.UpdateAsUserAsync(productId, userId, product));
         }
 
 
@@ -135,11 +135,11 @@ namespace NiceAuction.Controllers
         /// <response code="200">product removed successfully</response> 
         /// <response code="401">user is not logged in</response>
         /// <response code="404">product not found or does not belong to the current user</response>
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteProduct(int id)
+        [HttpDelete("{productId}")]
+        public async Task<IActionResult> DeleteProduct(int productId)
         {
             var userId = _userManager.GetUserId(User);
-            return Ok(await _productService.DeleteAsUserByIdAsync(id, userId));
+            return Ok(await _productService.DeleteAsUserByIdAsync(productId, userId));
         }
 
         /// <summary>
@@ -150,11 +150,11 @@ namespace NiceAuction.Controllers
         /// <response code="401">user is not logged in</response>
         /// <response code="403">the user does not have administrator rights</response>
         /// <response code="404">product not found</response>
-        [HttpDelete("admin/{id}")]
+        [HttpDelete("admin/{productId}")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
-        public async Task<IActionResult> DeleteProductAsAdmin(int id)
+        public async Task<IActionResult> DeleteProductAsAdmin(int productId)
         {
-            return Ok(await _productService.DeleteByIdAsync(id));
+            return Ok(await _productService.DeleteByIdAsync(productId));
         }
 
 

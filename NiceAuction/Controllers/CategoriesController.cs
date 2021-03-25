@@ -59,10 +59,10 @@ namespace NiceAuction.Controllers
         /// <response code="403">the user does not have administrator rights</response>
         /// <response code="404">category not found</response> 
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateCategory(int id, [FromBody] CreateCategoryDTO category)
+        [HttpPut("{categoryId}")]
+        public async Task<IActionResult> UpdateCategory(int categoryId, [FromBody] CreateCategoryDTO category)
         {
-            return Ok(await _categoryService.UpdateAsync(category, id));
+            return Ok(await _categoryService.UpdateAsync(category, categoryId));
         }
 
         /// <summary>
@@ -74,10 +74,10 @@ namespace NiceAuction.Controllers
         /// <response code="403">the user does not have administrator rights</response> 
         /// <response code="404">category not found</response> 
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCategory(int id)
+        [HttpDelete("{categoryId}")]
+        public async Task<IActionResult> DeleteCategory(int categoryId)
         {
-            return Ok(await _categoryService.DeleteByIdAsync(id));
+            return Ok(await _categoryService.DeleteByIdAsync(categoryId));
         }
      
     }

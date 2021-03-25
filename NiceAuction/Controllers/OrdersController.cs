@@ -35,10 +35,22 @@ namespace NiceAuction.Controllers
         /// <response code="401">user is not logged in</response> 
         /// <response code="403">the user does not have administrator rights</response> 
         [HttpGet]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles ="Admin")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         public IActionResult GetAll()
         {
             return Ok(_orderService.GetAll());
+        }
+
+        /// <summary>
+        /// receiving any order by id
+        /// </summary>
+        /// <response code="200">orders received successfully</response>
+        /// <response code="401">user is not logged in</response> 
+        [HttpGet("admin/{orderId}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+        public async Task<IActionResult> GetOrderById(int orderId)
+        {    
+            return Ok(await _orderService.GetByIdAsync(orderId));
         }
 
         /// <summary>
@@ -103,11 +115,11 @@ namespace NiceAuction.Controllers
         /// <response code="400">the user entered incorrect data</response> 
         /// <response code="401">user is not logged in</response>
         /// <response code="404">The order was not found or does not belong to the current user or you are not the seller of this product</response> 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteOrder(int id)
+        [HttpDelete("{orderId}")]
+        public async Task<IActionResult> DeleteOrder(int orderId)
         {
             var userId =  _userManager.GetUserId(User);
-            return Ok(await _orderService.DeleteAsUserByIdAsync(id, userId));
+            return Ok(await _orderService.DeleteAsUserByIdAsync(orderId, userId));
         }
 
         /// <summary> 
@@ -118,11 +130,11 @@ namespace NiceAuction.Controllers
         /// <response code="401">user is not logged in</response>
         /// <response code="403">the user does not have administrator rights</response> 
         /// <response code="404">order not found</response> 
-        [HttpDelete("admin/{id}")]
+        [HttpDelete("admin/{orderId}")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
-        public async Task<IActionResult> DeleteOrderAsAdmin(int id)
+        public async Task<IActionResult> DeleteOrderAsAdmin(int orderId)
         {
-            return Ok(await _orderService.DeleteByIdAsync(id));
+            return Ok(await _orderService.DeleteByIdAsync(orderId));
         }
     }
 }
