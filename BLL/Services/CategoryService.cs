@@ -44,7 +44,7 @@ namespace BLL.Services
 
             var category = _mapper.Map<Category>(model);
             await _categoryRepository.AddAsync(category);
-            await _categoryRepository.Save();
+            await _categoryRepository.SaveAsync();
             return category;
         }
 
@@ -62,7 +62,7 @@ namespace BLL.Services
             }
 
             await _categoryRepository.DeleteByIdAsync(modelId);
-            await _categoryRepository.Save();
+            await _categoryRepository.SaveAsync();
             return $"Deleted, name :{category.Name}, id : {category.Id}";
         }
 
@@ -98,7 +98,7 @@ namespace BLL.Services
             }
             _mapper.Map(model, category);
             _categoryRepository.Update(category);
-            await _categoryRepository.Save();
+            await _categoryRepository.SaveAsync();
             return "category has been updated succedfully";
 
         }

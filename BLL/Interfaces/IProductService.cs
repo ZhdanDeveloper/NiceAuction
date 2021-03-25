@@ -11,8 +11,8 @@ namespace BLL.Interfaces
     {
         Task<string> DeleteAsUserByIdAsync(int modelId, string CurrentUserId);
         Task<ReadProductDTO> UpdateAsUserAsync(int id, string CurrentUserId, UpdateProductDTO productDTO);
-        Task<string> DeleteProductFromCategoryById(int productId, int CategoryId, string CurrentUserId);
-        Task<string> AssignProductToCategory(int productId, int CategoryId, string CurrentUserId);
+        Task<string> DeleteProductFromCategoryByIdAsync(int productId, int CategoryId, string CurrentUserId);
+        Task<string> AssignProductToCategoryAsync(int productId, int CategoryId, string CurrentUserId);
         IEnumerable<ReadProductDTO> SearchByName(string Name);
 
     }

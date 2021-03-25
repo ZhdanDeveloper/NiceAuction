@@ -13,9 +13,5 @@ namespace DAL.Repositories
     {
         public UserRepository(NiceAuctionContext context) : base(context) { }
 
-        public Task<User> FindByNameWithDetails(string name)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

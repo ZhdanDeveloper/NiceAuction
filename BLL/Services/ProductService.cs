@@ -44,7 +44,7 @@ namespace BLL.Services
             var prod = _mapper.Map<Product>(model);
             prod.PhotoPath = await _fileManager.SaveImage(model.Photo);
             await _productRepository.AddAsync(prod);
-            await _productRepository.Save();
+            await _productRepository.SaveAsync();
             prod = await _productRepository.GetByIdWithDetailsAsync(prod.Id);
             prod.ProductCategories = new List<ProductCategory>();
             var categories = _categoryRepository.FindAll();
@@ -57,7 +57,7 @@ namespace BLL.Services
                 prod.ProductCategories.Add(new ProductCategory { ProductId = prod.Id, CategoryId = item });
             }
             _productRepository.Update(prod);
-            await _productRepository.Save();
+            await _productRepository.SaveAsync();
 
             return _mapper.Map<ReadProductDTO>(prod);
            
@@ -82,7 +82,7 @@ namespace BLL.Services
             {
                 _fileManager.DeleteImage(product.PhotoPath);
                 await _productRepository.DeleteByIdAsync(modelId);
-                await _productRepository.Save();
+                await _productRepository.SaveAsync();
                 return $"deleted, Name : {product.Name}, ID : {product.Id}";
             }
 
@@ -105,7 +105,7 @@ namespace BLL.Services
             }
             _fileManager.DeleteImage(product.PhotoPath);
             await _productRepository.DeleteByIdAsync(modelId);
-            await _productRepository.Save();
+            await _productRepository.SaveAsync();
             return $"deleted, Name : {product.Name}, ID : {product.Id}";
 
         }
@@ -153,7 +153,7 @@ namespace BLL.Services
                  product = _mapper.Map(productDTO, product);
                  product.UserId = CurrentUserId;
                 _productRepository.Update(product);
-                 await _productRepository.Save();
+                 await _productRepository.SaveAsync();
               
             
                return _mapper.Map<ReadProductDTO>(product);
@@ -166,7 +166,7 @@ namespace BLL.Services
         /// <param name="CategoryId">category id</param>
         /// <param name="CurrentUserId">category id</param>
 
-        public async Task<string> DeleteProductFromCategoryById(int productId, int CategoryId, string CurrentUserId)
+        public async Task<string> DeleteProductFromCategoryByIdAsync(int productId, int CategoryId, string CurrentUserId)
         {
             var product = await _productRepository.GetByIdAsync(productId);
             var ProductCategory = _productCategoryRepository.FindAll().FirstOrDefault(x => x.ProductId == productId && x.CategoryId == CategoryId);
@@ -181,7 +181,7 @@ namespace BLL.Services
             if (CurrentUserId == product.UserId)
             {
                 _productCategoryRepository.Delete(ProductCategory);
-                await _productCategoryRepository.Save();
+                await _productCategoryRepository.SaveAsync();
                 return $"Product has been removed from category, Category Id :{CategoryId}, ProductId : {productId}";
             }
 
@@ -195,7 +195,7 @@ namespace BLL.Services
         /// <param name="productId">product id</param>
         /// <param name="CategoryId">category id</param>
         /// <param name="CurrentUserId">category id</param>
-        public async Task<string> AssignProductToCategory(int productId, int CategoryId, string CurrentUserId)
+        public async Task<string> AssignProductToCategoryAsync(int productId, int CategoryId, string CurrentUserId)
         {
             var product = await _productRepository.GetByIdAsync(productId);
             var category = _categoryRepository.FindAll().FirstOrDefault(x => x.Id == CategoryId);
@@ -217,7 +217,7 @@ namespace BLL.Services
                 throw new AuctionException("Product doesn't belong to user", System.Net.HttpStatusCode.Forbidden);
             }
             await  _productCategoryRepository.AddAsync(new ProductCategory { CategoryId = CategoryId, ProductId = productId });
-            await _productCategoryRepository.Save();
+            await _productCategoryRepository.SaveAsync();
             return $"Product {product.Name} has been assign to category {category.Name}";
         }
 

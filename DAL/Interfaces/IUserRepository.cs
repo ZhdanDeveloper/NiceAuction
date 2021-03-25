@@ -8,7 +8,6 @@ namespace DAL.Interfaces
 {
     public interface IUserRepository : IRepository<User>
     {
-        Task<User> FindByNameWithDetails(string name);
         
     }
 }

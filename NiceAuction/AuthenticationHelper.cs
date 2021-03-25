@@ -43,7 +43,7 @@ namespace NiceAuction
             {
 
                 UserToCreate.Role = "User";
-                await _userRepository.Save();
+                await _userRepository.SaveAsync();
                 return BuildToken(_mapper.Map<LoginDTO>(UserToCreate));           
             }
             else

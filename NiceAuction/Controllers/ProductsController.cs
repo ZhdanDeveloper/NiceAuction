@@ -94,7 +94,7 @@ namespace NiceAuction.Controllers
         public async Task<IActionResult> AssignProductToCategory(int productId, int categoryId)
         {
             var userId =  _userManager.GetUserId(User);
-            return Ok(await _productService.AssignProductToCategory(productId, categoryId, userId));
+            return Ok(await _productService.AssignProductToCategoryAsync(productId, categoryId, userId));
         }
 
         /// <summary>
@@ -125,7 +125,7 @@ namespace NiceAuction.Controllers
         public async Task<IActionResult> DeleteProductFromCategory(int productId, int categoryId)
         {
             var userId = _userManager.GetUserId(User);
-            return Ok(await _productService.DeleteProductFromCategoryById(productId, categoryId, userId));
+            return Ok(await _productService.DeleteProductFromCategoryByIdAsync(productId, categoryId, userId));
         }
 
         /// <summary>
