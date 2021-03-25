@@ -66,7 +66,7 @@ namespace NiceAuction.Controllers
         /// <response code="200">User has been deleted</response>
         /// <response code="401">user is not logged in</response> 
         /// <response code="403">User does not have administrator rights</response> 
-        [HttpDelete("admin")]
+        [HttpDelete("admin/{userId}")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles ="Admin")]
         public async Task<ActionResult<string>> DeleteUser(string userId)
         {
