@@ -44,8 +44,10 @@ namespace NiceAuction.Controllers
         /// <summary>
         /// receiving any order by id
         /// </summary>
+        /// <param name="orderId">order id</param>
         /// <response code="200">orders received successfully</response>
         /// <response code="401">user is not logged in</response> 
+        /// <response code="403">the user does not have administrator rights</response> 
         [HttpGet("admin/{orderId}")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         public async Task<IActionResult> GetOrderById(int orderId)
@@ -54,14 +56,14 @@ namespace NiceAuction.Controllers
         }
 
         /// <summary>
-        /// receiving all incoming user orders if name != null else receiving all outcoming user orders by name
+        /// if name is null, receiving all incoming user orders, else receiving all incoming user orders by name
         /// </summary>
+        /// <param name="name">product name</param>
         /// <response code="200">orders received successfully</response>
         /// <response code="401">user is not logged in</response> 
         [HttpGet("incoming")]
         public IActionResult GetIncomingUserOrders(string name)
         {
-
             var userId = _userManager.GetUserId(User);
             if (name != null)
             {
@@ -73,7 +75,7 @@ namespace NiceAuction.Controllers
 
 
         /// <summary>
-        /// receiving all outcoming user orders if name != null else receiving all outcoming user orders by name
+        /// if name is null, receiving all outcoming user orders, else receiving all outcoming user orders by name
         /// </summary>
         /// <param name="name">product name</param>
         /// <response code="200">orders received successfully</response>

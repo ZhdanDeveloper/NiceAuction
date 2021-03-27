@@ -38,7 +38,6 @@ namespace NiceAuction.Controllers
         public async Task<IActionResult> GetCurrentUser()
         {
             var user = await _authenticationHelper.GetCurrentUserByName(User.Identity.Name);
-
             return Ok(user);
         }
 
