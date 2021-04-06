@@ -26,6 +26,8 @@ using System.Reflection;
 using Microsoft.OpenApi.Models;
 using BLL;
 using NiceAuction.Extensions;
+using System.IO;
+
 namespace NiceAuction
 {
     public class Startup
@@ -71,10 +73,13 @@ namespace NiceAuction
                         }
                     },
                     Array.Empty<string>()
+
                 }
                 });
-                
 
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                s.IncludeXmlComments(xmlPath);
 
             });
 

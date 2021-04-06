@@ -6,6 +6,10 @@
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>D:\NiceAuction\NiceAuction\NiceAuction.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.4">
@@ -24,6 +28,13 @@
   <ItemGroup>
     <Folder Include="Images\" />
   </ItemGroup>
-
+    <Target Name="PrepublishScript" BeforeTargets="PrepareForPublish">
+    <ItemGroup>
+      <DocFile Include="bin\*\*\*.xml" />
+    </ItemGroup>
+    <Copy SourceFiles="@(DocFile)"
+          DestinationFolder="$(PublishDir)"
+          SkipUnchangedFiles="false" />
+  </Target>
 
 </Project>
