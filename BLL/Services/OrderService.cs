@@ -37,14 +37,17 @@ namespace BLL.Services
         {
            var order = _mapper.Map<Order>(model);
            var product = await _productService.GetByIdAsync(model.ProductId);
+
            if (product == null)
            {
                 throw new AuctionException("Product not found", System.Net.HttpStatusCode.NotFound);
            }
+
            await _orderRepository.AddAsync(order);
            await _orderRepository.SaveAsync();
 
            var orderToReturn = _mapper.Map<ReadOrderDTO>(order);
+
            return orderToReturn;
         }
 
@@ -57,6 +60,7 @@ namespace BLL.Services
         public async Task<string> DeleteAsUserByIdAsync(int modelId, string currentUserId)
         {
             var order = _orderRepository.FindAllWithDetails().FirstOrDefault(x => x.Id == modelId);
+
             if (order == null || (order.Product.UserId != currentUserId && order.UserId != currentUserId))
             {
                 throw new AuctionException("Order not found", System.Net.HttpStatusCode.NotFound);
@@ -64,6 +68,7 @@ namespace BLL.Services
            
             await _orderRepository.DeleteByIdAsync(modelId);
             await _orderRepository.SaveAsync();
+
             return $"Order {order.Product.Name} has been deleted succesfully"; 
         }
 
@@ -75,12 +80,15 @@ namespace BLL.Services
         public async Task<string> DeleteByIdAsync(int modelId)
         {
             var order = _orderRepository.FindAllWithDetails().FirstOrDefault(x => x.Id == modelId);
+
             if (order == null)
             {
                 throw new AuctionException("Order not found", System.Net.HttpStatusCode.NotFound);
             }
+
             await _orderRepository.DeleteByIdAsync(modelId);
             await _orderRepository.SaveAsync();
+
             return $"Order {order.Product.Name} has been deleted succesfully";
         }
 

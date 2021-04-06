@@ -42,12 +42,17 @@ namespace BLL.Services
         public async Task<ReadProductDTO> AddAsync(CreateProductDTO model)
         {
             var prod = _mapper.Map<Product>(model);
+
             prod.PhotoPath = await _fileManager.SaveImage(model.Photo);
+
             await _productRepository.AddAsync(prod);
             await _productRepository.SaveAsync();
+
             prod = await _productRepository.GetByIdWithDetailsAsync(prod.Id);
             prod.ProductCategories = new List<ProductCategory>();
+
             var categories = _categoryRepository.FindAll();
+
             foreach (var item in model.CategoriesIds.Distinct())
             {
                 if (!categories.Contains(categories.FirstOrDefault(x=>x.Id == item)))
@@ -56,7 +61,9 @@ namespace BLL.Services
                 }
                 prod.ProductCategories.Add(new ProductCategory { ProductId = prod.Id, CategoryId = item });
             }
+
             _productRepository.Update(prod);
+
             await _productRepository.SaveAsync();
 
             return _mapper.Map<ReadProductDTO>(prod);
@@ -81,8 +88,10 @@ namespace BLL.Services
             if (currentUserId == product.UserId)
             {
                 _fileManager.DeleteImage(product.PhotoPath);
+
                 await _productRepository.DeleteByIdAsync(modelId);
                 await _productRepository.SaveAsync();
+
                 return $"deleted, Name : {product.Name}, ID : {product.Id}";
             }
 
@@ -99,13 +108,17 @@ namespace BLL.Services
         public async Task<string> DeleteByIdAsync(int modelId)
         {
             var product = await _productRepository.GetByIdAsync(modelId);
+
             if (product == null)
             {
                 throw new AuctionException("Product not found", System.Net.HttpStatusCode.NotFound);
             }
+
             _fileManager.DeleteImage(product.PhotoPath);
+
             await _productRepository.DeleteByIdAsync(modelId);
             await _productRepository.SaveAsync();
+
             return $"deleted, Name : {product.Name}, ID : {product.Id}";
 
         }
@@ -170,6 +183,7 @@ namespace BLL.Services
         {
             var product = await _productRepository.GetByIdAsync(productId);
             var ProductCategory = _productCategoryRepository.FindAll().FirstOrDefault(x => x.ProductId == productId && x.CategoryId == categoryId);
+
             if (product == null)
             {
                 throw new AuctionException("Product not found", System.Net.HttpStatusCode.NotFound);
@@ -200,6 +214,7 @@ namespace BLL.Services
             var product = await _productRepository.GetByIdAsync(productId);
             var category = _categoryRepository.FindAll().FirstOrDefault(x => x.Id == categoryId);
             var ProductCategory = _productCategoryRepository.FindAll().FirstOrDefault(x => x.CategoryId == categoryId && x.ProductId == productId);
+
             if (ProductCategory != null)
             {
                 throw new AuctionException("Product alredy in category", System.Net.HttpStatusCode.BadRequest);
@@ -216,8 +231,10 @@ namespace BLL.Services
             {
                 throw new AuctionException("Product doesn't belong to user", System.Net.HttpStatusCode.Forbidden);
             }
+
             await  _productCategoryRepository.AddAsync(new ProductCategory { CategoryId = categoryId, ProductId = productId });
             await _productCategoryRepository.SaveAsync();
+
             return $"Product {product.Name} has been assign to category {category.Name}";
         }
 

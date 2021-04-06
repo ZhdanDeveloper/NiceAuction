@@ -43,8 +43,10 @@ namespace BLL.Services
             }
 
             var category = _mapper.Map<Category>(model);
+
             await _categoryRepository.AddAsync(category);
             await _categoryRepository.SaveAsync();
+
             return category;
         }
 
@@ -56,6 +58,7 @@ namespace BLL.Services
         public async Task<string> DeleteByIdAsync(int modelId)
         {
             var category = await _categoryRepository.GetByIdAsync(modelId);
+
             if (category == null)
             {
                 throw new AuctionException("Category not found", System.Net.HttpStatusCode.NotFound);
@@ -63,6 +66,7 @@ namespace BLL.Services
 
             await _categoryRepository.DeleteByIdAsync(modelId);
             await _categoryRepository.SaveAsync();
+
             return $"Deleted, name :{category.Name}, id : {category.Id}";
         }
 
@@ -92,13 +96,17 @@ namespace BLL.Services
         public async Task<string> UpdateAsync(CreateCategoryDTO model, int id)
         {
             var category = await _categoryRepository.GetByIdAsync(id);
+
             if (category == null)
             {
                 throw new AuctionException("Category not found", System.Net.HttpStatusCode.NotFound);
             }
+
             _mapper.Map(model, category);
             _categoryRepository.Update(category);
+
             await _categoryRepository.SaveAsync();
+
             return "category has been updated succedfully";
 
         }
