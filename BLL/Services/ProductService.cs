@@ -48,7 +48,7 @@ namespace BLL.Services
             prod = await _productRepository.GetByIdWithDetailsAsync(prod.Id);
             prod.ProductCategories = new List<ProductCategory>();
             var categories = _categoryRepository.FindAll();
-            foreach (var item in model.CategoriesIds)
+            foreach (var item in model.CategoriesIds.Distinct())
             {
                 if (!categories.Contains(categories.FirstOrDefault(x=>x.Id == item)))
                 {
