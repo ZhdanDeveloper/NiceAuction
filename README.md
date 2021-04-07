@@ -6,7 +6,7 @@
 4. ORM : EF Core
 5. DB : MS SQL
 6. Authentication : Microsoft Identity + JWT
-7. User, Admin [Changes in DBMS]
+7. Roles : User, Admin [Changes in DBMS]
 
 ## Routes
 
