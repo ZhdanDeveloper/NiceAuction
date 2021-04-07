@@ -144,7 +144,12 @@ namespace BLL.Services
         /// <param name="id">order id</param>
         public async Task<ReadProductDTO> GetByIdAsync(int id)
         {
-            return _mapper.Map<ReadProductDTO>(await _productRepository.GetByIdWithDetailsAsync(id));
+            var product = await _productRepository.GetByIdWithDetailsAsync(id);
+            if (product == null)
+            {
+                throw new AuctionException("Product not found", System.Net.HttpStatusCode.NotFound);
+            }
+            return _mapper.Map<ReadProductDTO>(product);
         }
 
         /// <summary>
