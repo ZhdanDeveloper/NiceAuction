@@ -46,7 +46,7 @@ namespace NiceAuction.Controllers
         /// <summary>
         /// receiving product by ID
         /// </summary>
-        /// <param name="id">produc ID</param>
+        /// <param name="productId">produc ID</param>
         /// <response code="200">product received successfully</response> 
         /// <response code="404">product not found</response> 
         [AllowAnonymous]
@@ -101,7 +101,7 @@ namespace NiceAuction.Controllers
         /// product update
         /// </summary>
         /// <param name="product">product model</param>
-        /// <param name="id">product id</param>
+        /// <param name="productId">product id</param>
         /// <response code="200">product updated successfully</response> 
         /// <response code="401">user is not logged in</response>
         /// <response code="404">product not found or does not belong to the current user</response>
@@ -131,7 +131,7 @@ namespace NiceAuction.Controllers
         /// <summary>
         /// deleting a product as a user
         /// </summary>
-        /// <param name="id">product id</param>
+        /// <param name="productId">product id</param>
         /// <response code="200">product removed successfully</response> 
         /// <response code="401">user is not logged in</response>
         /// <response code="404">product not found or does not belong to the current user</response>
@@ -143,9 +143,9 @@ namespace NiceAuction.Controllers
         }
 
         /// <summary>
-        /// deleting a product as a admin
+        /// deleting a product as admin
         /// </summary>
-        /// <param name="id">product id</param>
+        /// <param name="productId">product id</param>
         /// <response code="200">product removed successfully</response> 
         /// <response code="401">user is not logged in</response>
         /// <response code="403">the user does not have administrator rights</response>
