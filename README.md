@@ -8,5 +8,6 @@
 ## Authentication : Microsoft Identity + JWT
 
 ![image](https://user-images.githubusercontent.com/68823930/113863380-4571f080-97b2-11eb-9d49-a1b3661d2050.png)
-![image](https://user-images.githubusercontent.com/68823930/113863401-4acf3b00-97b2-11eb-906f-e0cc585ad810.png)
+![image](https://user-images.githubusercontent.com/68823930/113863436-5589d000-97b2-11eb-8e1d-3caa997fc2ba.png)
+
 
