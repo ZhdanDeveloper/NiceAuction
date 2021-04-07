@@ -10,8 +10,9 @@
 
 ## Routes
 
-![image](https://user-images.githubusercontent.com/68823930/113863380-4571f080-97b2-11eb-9d49-a1b3661d2050.png)
-![image](https://user-images.githubusercontent.com/68823930/113863497-6b979080-97b2-11eb-910c-fac472464f0a.png)
+![image](https://user-images.githubusercontent.com/68823930/113912213-87675a80-97e3-11eb-9c6a-751f7e4028e5.png)
+![image](https://user-images.githubusercontent.com/68823930/113912370-b41b7200-97e3-11eb-88fd-4bc28775a329.png)
+
 
 
 
