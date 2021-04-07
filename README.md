@@ -1,6 +1,4 @@
-# NiceAuction
-
-Web Api для интернет ауециона
+# NiceAuction - simple WEB API FOR ONLINE AUCTION
 
 ## UI : Swagger
 ## Framework : ASP.NET Core
