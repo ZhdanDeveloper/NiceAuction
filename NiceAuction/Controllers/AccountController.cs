@@ -29,14 +29,14 @@ namespace NiceAuction.Controllers
             _authenticationHelper = authenticationHelper;
         }
 
-      
+
         /// <summary>
         /// User registration 
         /// </summary>
-        /// <param name="model">user model</param>
+        /// <param name="userModel">user model</param>
         /// <response code="200">user created successfully</response>
         /// <response code="400">incorrect data entry</response> 
-        [HttpPost("Create")]
+        [HttpPost("Register")]
         public async Task<ActionResult<TokenDTO>> CreateUser([FromBody] CreateUserDTO userModel) 
         {
             var result =  await _authenticationHelper.CreateUser(userModel);
