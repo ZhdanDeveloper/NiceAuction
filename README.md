@@ -1,11 +1,11 @@
 # NiceAuction - simple WEB API FOR ONLINE AUCTION
 
-## UI : Swagger
-## Framework : ASP.NET Core
-## Architecture : 3-Tier
-## ORM : EF Core
-## DB : MS SQL
-## Authentication : Microsoft Identity + JWT
+1. UI : Swagger
+2. Framework : ASP.NET Core
+3. Architecture : 3-Tier
+4. ORM : EF Core
+5. DB : MS SQL
+6. Authentication : Microsoft Identity + JWT
 
 # Routes
 
