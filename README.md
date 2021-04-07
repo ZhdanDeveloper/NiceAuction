@@ -11,7 +11,7 @@
 ## Routes
 
 ![image](https://user-images.githubusercontent.com/68823930/113912213-87675a80-97e3-11eb-9c6a-751f7e4028e5.png)
-![image](https://user-images.githubusercontent.com/68823930/113912276-9b12c100-97e3-11eb-830b-7dca36179b03.png)
+![image](https://user-images.githubusercontent.com/68823930/113912370-b41b7200-97e3-11eb-88fd-4bc28775a329.png)
 
 
 
