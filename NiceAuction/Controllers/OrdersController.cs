@@ -29,7 +29,7 @@ namespace NiceAuction.Controllers
         }
 
         /// <summary>
-        /// receiving all orders
+        /// receiving all orders (for admin)
         /// </summary>
         /// <response code="200">orders received successfully</response>
         /// <response code="401">user is not logged in</response> 
@@ -42,13 +42,13 @@ namespace NiceAuction.Controllers
         }
 
         /// <summary>
-        /// receiving any order by id
+        /// receiving any order by id (for admins)
         /// </summary>
         /// <param name="orderId">order id</param>
         /// <response code="200">orders received successfully</response>
         /// <response code="401">user is not logged in</response> 
         /// <response code="403">the user does not have administrator rights</response> 
-        [HttpGet("admin/{orderId}")]
+        [HttpGet("{orderId}")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         public async Task<IActionResult> GetOrderById(int orderId)
         {    
@@ -110,33 +110,20 @@ namespace NiceAuction.Controllers
         }
 
         /// <summary>
-        /// deleting orders as user
+        /// deleting order (depends on role)
         /// </summary>
-        /// <param name="id">product id</param>
+        /// <param name="orderId">product id</param>
         /// <response code="200">order successfully deleted</response>
         /// <response code="400">the user entered incorrect data</response> 
         /// <response code="401">user is not logged in</response>
+        /// <response code="403">the user does not have administrator rights</response> 
         /// <response code="404">The order was not found or does not belong to the current user or you are not the seller of this product</response> 
         [HttpDelete("{orderId}")]
         public async Task<IActionResult> DeleteOrder(int orderId)
         {
+            var user = await _userManager.GetUserAsync(User);
             var userId =  _userManager.GetUserId(User);
-            return Ok(await _orderService.DeleteAsUserByIdAsync(orderId, userId));
-        }
-
-        /// <summary> 
-        /// deleting an order as an auction administrator
-        /// </summary>
-        /// <param name="id">order id</param>
-        /// <response code="200">order successfully deleted</response>
-        /// <response code="401">user is not logged in</response>
-        /// <response code="403">the user does not have administrator rights</response> 
-        /// <response code="404">order not found</response> 
-        [HttpDelete("admin/{orderId}")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
-        public async Task<IActionResult> DeleteOrderAsAdmin(int orderId)
-        {
-            return Ok(await _orderService.DeleteByIdAsync(orderId));
+            return Ok(await _orderService.DeleteByIdAsync(orderId, userId, user.Role));
         }
     }
 }

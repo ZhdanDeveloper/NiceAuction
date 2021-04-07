@@ -57,19 +57,21 @@ namespace BLL.Services
         /// </summary>
         /// <param name="modelId">order id</param>
         /// <param name="currentUserId">user id</param>
-        public async Task<string> DeleteAsUserByIdAsync(int modelId, string currentUserId)
+        private async Task<string> DeleteAsUserByIdAsync(int modelId, string currentUserId)
         {
-            var order = _orderRepository.FindAllWithDetails().FirstOrDefault(x => x.Id == modelId);
+               
+                var order = _orderRepository.FindAllWithDetails().FirstOrDefault(x => x.Id == modelId);
 
-            if (order == null || (order.Product.UserId != currentUserId && order.UserId != currentUserId))
-            {
-                throw new AuctionException("Order not found", System.Net.HttpStatusCode.NotFound);
-            }
-           
-            await _orderRepository.DeleteByIdAsync(modelId);
-            await _orderRepository.SaveAsync();
+                if (order == null || (order.Product.UserId != currentUserId && order.UserId != currentUserId))
+                {
+                    throw new AuctionException("Order not found", System.Net.HttpStatusCode.NotFound);
+                }
 
-            return $"Order {order.Product.Name} has been deleted succesfully"; 
+                await _orderRepository.DeleteByIdAsync(modelId);
+                await _orderRepository.SaveAsync();
+
+                return $"Order {order.Product.Name} has been deleted succesfully";
+
         }
 
         /// <summary>
@@ -77,8 +79,13 @@ namespace BLL.Services
         /// throws an exception on failure
         /// </summary>
         /// <param name="modelId">order id</param>
-        public async Task<string> DeleteByIdAsync(int modelId)
+        public async Task<string> DeleteByIdAsync(int modelId, string currentUserId, string role)
         {
+            if (role != "Admin")
+            {
+               return await DeleteAsUserByIdAsync(modelId, currentUserId);
+            }
+
             var order = _orderRepository.FindAllWithDetails().FirstOrDefault(x => x.Id == modelId);
 
             if (order == null)

@@ -76,7 +76,7 @@ namespace BLL.Services
         /// </summary>
         /// <param name="modelId">order id</param>
         /// <param name="currentUserId">user id</param>
-        public async Task<string> DeleteAsUserByIdAsync(int modelId, string currentUserId)
+        private async Task<string> DeleteAsUserByIdAsync(int modelId, string currentUserId)
         {
             var product = await _productRepository.GetByIdAsync(modelId);
 
@@ -105,8 +105,14 @@ namespace BLL.Services
         /// throws an exception on failure
         /// </summary>
         /// <param name="modelId">order id</param>
-        public async Task<string> DeleteByIdAsync(int modelId)
+        public async Task<string> DeleteByIdAsync(int modelId, string currentUserId, string role)
         {
+
+            if (role != "Admin")
+            {
+                return await DeleteAsUserByIdAsync(modelId, currentUserId);
+            }
+
             var product = await _productRepository.GetByIdAsync(modelId);
 
             if (product == null)

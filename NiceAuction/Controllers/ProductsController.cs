@@ -129,17 +129,18 @@ namespace NiceAuction.Controllers
         }
 
         /// <summary>
-        /// deleting a product as a user
+        /// deleting a product (depends on role)
         /// </summary>
         /// <param name="productId">product id</param>
         /// <response code="200">product removed successfully</response> 
         /// <response code="401">user is not logged in</response>
+        /// <response code="403">the user does not have administrator rights</response>
         /// <response code="404">product not found or does not belong to the current user</response>
         [HttpDelete("{productId}")]
         public async Task<IActionResult> DeleteProduct(int productId)
         {
-            var userId = _userManager.GetUserId(User);
-            return Ok(await _productService.DeleteAsUserByIdAsync(productId, userId));
+            var user = await _userManager.GetUserAsync(User);
+            return Ok(await _productService.DeleteByIdAsync(productId, user.Id, user.Role));
         }
 
         /// <summary>
@@ -150,12 +151,12 @@ namespace NiceAuction.Controllers
         /// <response code="401">user is not logged in</response>
         /// <response code="403">the user does not have administrator rights</response>
         /// <response code="404">product not found</response>
-        [HttpDelete("admin/{productId}")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
-        public async Task<IActionResult> DeleteProductAsAdmin(int productId)
-        {
-            return Ok(await _productService.DeleteByIdAsync(productId));
-        }
+        //[HttpDelete("admin/{productId}")]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+        //public async Task<IActionResult> DeleteProductAsAdmin(int productId)
+        //{
+        //    return Ok(await _productService.DeleteByIdAsync(productId));
+        //}
 
 
     }

@@ -29,18 +29,7 @@ namespace NiceAuction.Controllers
             _authenticationHelper = authenticationHelper;
         }
 
-        /// <summary>
-        /// getting the current user
-        /// </summary>
-        /// <response code="200">user got successfully</response>
-        [HttpGet("CurrentUser")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> GetCurrentUser()
-        {
-            var user = await _authenticationHelper.GetCurrentUserByName(User.Identity.Name);
-            return Ok(user);
-        }
-
+      
         /// <summary>
         /// User registration 
         /// </summary>
@@ -56,20 +45,6 @@ namespace NiceAuction.Controllers
                 return Ok(result);
             }
             return BadRequest(result.Errors);
-        }
-
-        /// <summary>
-        /// account deleting
-        /// </summary>
-        /// <param name="userId">Id of user</param>
-        /// <response code="200">User has been deleted</response>
-        /// <response code="401">user is not logged in</response> 
-        /// <response code="403">User does not have administrator rights</response> 
-        [HttpDelete("admin/{userId}")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles ="Admin")]
-        public async Task<ActionResult<string>> DeleteUser(string userId)
-        {
-            return Ok(await _authenticationHelper.DeleteUserById(userId));
         }
 
         /// <summary>

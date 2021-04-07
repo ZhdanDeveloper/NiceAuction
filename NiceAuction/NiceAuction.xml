@@ -4,12 +4,6 @@
         <name>NiceAuction</name>
     </assembly>
     <members>
-        <member name="M:NiceAuction.Controllers.AccountController.GetCurrentUser">
-            <summary>
-            getting the current user
-            </summary>
-            <response code="200">user got successfully</response>
-        </member>
         <member name="M:NiceAuction.Controllers.AccountController.CreateUser(BLL.DTOs.CreateUserDTO)">
             <summary>
             User registration 
@@ -17,15 +11,6 @@
             <param name="model">user model</param>
             <response code="200">user created successfully</response>
             <response code="400">incorrect data entry</response> 
-        </member>
-        <member name="M:NiceAuction.Controllers.AccountController.DeleteUser(System.String)">
-            <summary>
-            account deleting
-            </summary>
-            <param name="userId">Id of user</param>
-            <response code="200">User has been deleted</response>
-            <response code="401">user is not logged in</response> 
-            <response code="403">User does not have administrator rights</response> 
         </member>
         <member name="M:NiceAuction.Controllers.AccountController.Login(BLL.DTOs.LoginDTO)">
             <summary>
@@ -73,7 +58,7 @@
         </member>
         <member name="M:NiceAuction.Controllers.OrdersController.GetAll">
             <summary>
-            receiving all orders
+            receiving all orders (for admin)
             </summary>
             <response code="200">orders received successfully</response>
             <response code="401">user is not logged in</response> 
@@ -81,7 +66,7 @@
         </member>
         <member name="M:NiceAuction.Controllers.OrdersController.GetOrderById(System.Int32)">
             <summary>
-            receiving any order by id
+            receiving any order by id (for admins)
             </summary>
             <param name="orderId">order id</param>
             <response code="200">orders received successfully</response>
@@ -116,23 +101,14 @@
         </member>
         <member name="M:NiceAuction.Controllers.OrdersController.DeleteOrder(System.Int32)">
             <summary>
-            deleting orders as user
+            deleting order (depends on role)
             </summary>
-            <param name="id">product id</param>
+            <param name="orderId">product id</param>
             <response code="200">order successfully deleted</response>
             <response code="400">the user entered incorrect data</response> 
             <response code="401">user is not logged in</response>
-            <response code="404">The order was not found or does not belong to the current user or you are not the seller of this product</response> 
-        </member>
-        <member name="M:NiceAuction.Controllers.OrdersController.DeleteOrderAsAdmin(System.Int32)">
-            <summary> 
-            deleting an order as an auction administrator
-            </summary>
-            <param name="id">order id</param>
-            <response code="200">order successfully deleted</response>
-            <response code="401">user is not logged in</response>
             <response code="403">the user does not have administrator rights</response> 
-            <response code="404">order not found</response> 
+            <response code="404">The order was not found or does not belong to the current user or you are not the seller of this product</response> 
         </member>
         <member name="M:NiceAuction.Controllers.ProductsController.GetAll">
             <summary>
@@ -195,22 +171,35 @@
         </member>
         <member name="M:NiceAuction.Controllers.ProductsController.DeleteProduct(System.Int32)">
             <summary>
-            deleting a product as a user
-            </summary>
-            <param name="productId">product id</param>
-            <response code="200">product removed successfully</response> 
-            <response code="401">user is not logged in</response>
-            <response code="404">product not found or does not belong to the current user</response>
-        </member>
-        <member name="M:NiceAuction.Controllers.ProductsController.DeleteProductAsAdmin(System.Int32)">
-            <summary>
-            deleting a product as admin
+            deleting a product (depends on role)
             </summary>
             <param name="productId">product id</param>
             <response code="200">product removed successfully</response> 
             <response code="401">user is not logged in</response>
             <response code="403">the user does not have administrator rights</response>
-            <response code="404">product not found</response>
+            <response code="404">product not found or does not belong to the current user</response>
+        </member>
+        <member name="M:NiceAuction.Controllers.UsersController.GetAllUsers(System.String)">
+            <summary>
+            getting all users or users that name conains argument name
+            </summary>
+            <param name="name">user name</param>
+            <response code="200">users got successfully</response>
+        </member>
+        <member name="M:NiceAuction.Controllers.UsersController.GetCurrentUser">
+            <summary>
+            getting the current user
+            </summary>
+            <response code="200">user got successfully</response>
+        </member>
+        <member name="M:NiceAuction.Controllers.UsersController.DeleteUser(System.String)">
+            <summary>
+            account deleting (for admins)
+            </summary>
+            <param name="userId">Id of user</param>
+            <response code="200">User has been deleted</response>
+            <response code="401">user is not logged in</response> 
+            <response code="403">User does not have administrator rights</response> 
         </member>
     </members>
 </doc>

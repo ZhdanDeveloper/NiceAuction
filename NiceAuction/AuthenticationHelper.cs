@@ -4,6 +4,7 @@ using BLL.Exceptions;
 using DAL.Entities;
 using DAL.Interfaces;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -80,13 +81,28 @@ namespace NiceAuction
            
         }
 
-        public async Task<ReadUserDTO> GetCurrentUserByName(string Name)
+        public async Task<ReadUserDTO> GetUserByName(string Name)
         {
-            User user = await _userManager.FindByNameAsync(Name);
-            return _mapper.Map<ReadUserDTO>(user);
-
+            var user = await _userManager.FindByNameAsync(Name);
+           
+            if (user != null)
+            {
+                return _mapper.Map<ReadUserDTO>(user);
+            }
+            throw new AuctionException("user not found", System.Net.HttpStatusCode.NotFound);
         }
 
+        public async Task<List<ReadUserDTO>> GetAllUsers(string Name)
+        {
+            var users = await _userManager.Users.ToListAsync();
+            if (Name == null)
+            {
+                return _mapper.Map<List<ReadUserDTO>>(users);
+            }
+            return _mapper.Map<List<ReadUserDTO>>(users.Where(x => x.UserName.ToLower().Contains(Name.ToLower())));
+           
+            
+        }
 
         private TokenDTO BuildToken(LoginDTO model)
         {
