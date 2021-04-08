@@ -163,5 +163,14 @@ namespace BLL.Services
         {
             throw new NotImplementedException();
         }
+
+        public async Task RemoveOrdersConnectedWithUser(string id)
+        {
+            var orders = _orderRepository.FindAll().Where(x => x.UserId == id);
+            foreach (var item in orders)
+            {
+                 _orderRepository.DeleteByIdAsync(item.Id).GetAwaiter();
+            }
+        }
     }
 }

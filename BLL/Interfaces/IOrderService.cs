@@ -10,6 +10,7 @@ namespace BLL.Interfaces
     public interface IOrderService 
     {
          IEnumerable<ReadOrderDTO> GetAll();
+         Task RemoveOrdersConnectedWithUser(string id);
          Task<ReadOrderDTO> GetByIdAsync(int id);
          Task<ReadOrderDTO> AddAsync(CreateOrderDTO model);
          Task<string> UpdateAsync(CreateOrderDTO model, int id);

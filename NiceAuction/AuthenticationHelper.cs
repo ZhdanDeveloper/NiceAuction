@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BLL.DTOs;
 using BLL.Exceptions;
+using BLL.Interfaces;
 using DAL.Entities;
 using DAL.Interfaces;
 using Microsoft.AspNetCore.Identity;
@@ -22,19 +23,21 @@ namespace NiceAuction
 
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly IOrderService _orderService;
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
         private readonly IUserRepository _userRepository;
-        public AuthenticationHelper(UserManager<User> userManager, SignInManager<User> signInManager, IConfiguration configuration, IMapper mapper, IUserRepository userRepository)
+        public AuthenticationHelper(UserManager<User> userManager, SignInManager<User> signInManager, IConfiguration configuration, IMapper mapper, IUserRepository userRepository, IOrderService orderService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _configuration = configuration;
             _mapper = mapper;
             _userRepository = userRepository;
+            _orderService = orderService;
         }
 
-     
+
         public async Task<TokenDTO> CreateUser(CreateUserDTO model)
         {
             var UserToCreate = _mapper.Map<User>(model);
@@ -74,6 +77,7 @@ namespace NiceAuction
             var user = await _userManager.FindByIdAsync(Id);
             if (user != null)
             {
+               await _orderService.RemoveOrdersConnectedWithUser(Id);
                await _userManager.DeleteAsync(user);
                return $"user with id : {user.Id} has been deleted succesfully";
             }
