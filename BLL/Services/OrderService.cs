@@ -144,9 +144,9 @@ namespace BLL.Services
         /// this method returns products that have been ordered by the current user
         /// </summary>
         /// <param name="currentUserId">current user id</param>
-        public IEnumerable<ReadOrderDTO> OutcomingUserOrders(string currentUserId)
+        public IEnumerable<OutcomingOrderDTO> OutcomingUserOrders(string currentUserId)
         {
-            return _mapper.Map<IEnumerable<ReadOrderDTO>>(_orderRepository.FindAllWithDetails().Where(x => x.UserId == currentUserId));
+            return _mapper.Map<IEnumerable<OutcomingOrderDTO>>(_orderRepository.FindAllWithDetails().Where(x => x.UserId == currentUserId));
         }
 
         /// <summary>
@@ -154,9 +154,9 @@ namespace BLL.Services
         /// </summary>
         /// <param name="currentUserId">current user id</param>
         /// <param name="name">current user name</param>
-        public IEnumerable<ReadOrderDTO> OutcomingUserOrdersByProductName(string currentUserId, string name)
+        public IEnumerable<OutcomingOrderDTO> OutcomingUserOrdersByProductName(string currentUserId, string name)
         {
-            return _mapper.Map<IEnumerable<ReadOrderDTO>>(_orderRepository.FindAllWithDetails().Where(x => x.UserId == currentUserId && x.Product.Name.Contains(name)));
+            return _mapper.Map<IEnumerable<OutcomingOrderDTO>>(_orderRepository.FindAllWithDetails().Where(x => x.UserId == currentUserId && x.Product.Name.Contains(name)));
         }
 
         public Task<string> UpdateAsync(CreateOrderDTO model, int id)

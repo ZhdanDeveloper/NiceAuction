@@ -24,6 +24,7 @@ namespace BLL
               .ForMember(p=>p.OwnerName, c=>c.MapFrom(x=>x.User.UserName))
               .ForMember(p => p.OwnerPhone, c => c.MapFrom(x => x.User.Phone));
 
+
             CreateMap<UpdateProductDTO, Product>()
                 .ForMember(x => x.Id, opt => opt.Ignore())
                 .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
@@ -52,6 +53,11 @@ namespace BLL
             .ForMember(x => x.CustomerName, c => c.MapFrom(x => x.User.FirstName))
             .ForMember(x => x.CustomerPhone, c => c.MapFrom(x => x.User.Phone));
 
+            CreateMap<Order, OutcomingOrderDTO>()
+           .ForMember(x => x.TotalPrice, c => c.MapFrom(x => x.Product.Price * x.Amount))
+           .ForMember(x => x.ProductName, c => c.MapFrom(x => x.Product.Name))
+           .ForMember(x => x.OwnerName, c => c.MapFrom(x => x.Product.User.FirstName))
+           .ForMember(x => x.OwnerPhone, c => c.MapFrom(x => x.Product.User.Phone));
 
 
 

@@ -16,8 +16,8 @@ namespace BLL.Interfaces
          Task<string> UpdateAsync(CreateOrderDTO model, int id);
          Task<string> DeleteByIdAsync(int modelId, string currentUserId, string role);
          IEnumerable<ReadOrderDTO> IncomingUserOrders(string currentUserId);
-         IEnumerable<ReadOrderDTO> OutcomingUserOrders(string currentUserId);
+         IEnumerable<OutcomingOrderDTO> OutcomingUserOrders(string currentUserId);
          IEnumerable<ReadOrderDTO> IncomingUserOrdersByProductName(string currentUserId, string name);
-         IEnumerable<ReadOrderDTO> OutcomingUserOrdersByProductName(string currentUserId, string name);
+         IEnumerable<OutcomingOrderDTO> OutcomingUserOrdersByProductName(string currentUserId, string name);
     }
 }
