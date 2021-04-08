@@ -8,6 +8,8 @@ namespace BLL.DTOs
     {
         public int Id { get; set; }
         public int Amount { get; set; }
+        public string CustomerName { get; set; }
+        public string CustomerPhone{ get; set; }
         public string ProductName { get; set; }
         public decimal TotalPrice { get; set; }
         public DateTime CreatedAt { get; set; }

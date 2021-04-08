@@ -17,13 +17,13 @@ namespace DAL.Repositories
 
         public IQueryable<Order> FindAllWithDetails()
         {
-            return _context.Orders.Include(x => x.User).Include(x => x.Product);
+            return _context.Orders.Include(x => x.User).Include(x => x.Product).ThenInclude(x => x.User);
 
         }
 
         public Task<Order> GetByIdWithDetailsAsync(int id)
         {
-            return _context.Orders.Include(x => x.User).Include(x => x.Product).FirstOrDefaultAsync(x=>x.Id == id);
+            return _context.Orders.Include(x => x.User).Include(x => x.Product).ThenInclude(x => x.User).FirstOrDefaultAsync(x=>x.Id == id);
         }
     }
 }

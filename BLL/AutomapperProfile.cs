@@ -48,7 +48,10 @@ namespace BLL
 
             CreateMap<Order, ReadOrderDTO>()
             .ForMember(x => x.TotalPrice, c => c.MapFrom(x => x.Product.Price * x.Amount))
-            .ForMember(x => x.ProductName, c => c.MapFrom(x => x.Product.Name));
+            .ForMember(x => x.ProductName, c => c.MapFrom(x => x.Product.Name))
+            .ForMember(x => x.CustomerName, c => c.MapFrom(x => x.Product.User.FirstName))
+            .ForMember(x => x.CustomerPhone, c => c.MapFrom(x => x.Product.User.Phone));
+
 
 
 
