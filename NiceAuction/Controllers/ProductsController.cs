@@ -42,6 +42,16 @@ namespace NiceAuction.Controllers
             return Ok(_productService.GetAll());
         }
 
+        /// <summary>
+        /// Receiving all products
+        /// </summary>
+        /// <response code="200">products received successfully</response> 
+        [AllowAnonymous]
+        [HttpGet("my")]
+        public IActionResult GetCurrentUserProducts()
+        {
+            return Ok(_productService.GetProductsOfCurrentUser(_userManager.GetUserId(User)));
+        }
 
         /// <summary>
         /// receiving product by ID

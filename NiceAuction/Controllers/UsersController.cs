@@ -20,12 +20,16 @@ namespace NiceAuction.Controllers
         }
 
         /// <summary>
-        /// getting all users or users that name conains argument name
+        /// getting all users or users that name conains argument name (for admins)
         /// </summary>
         /// <param name="name">user name</param>
         /// <response code="200">users got successfully</response>
+        /// <response code="401">unothirized</response>
+        /// <response code="403">not enough rights</response>
+
+
         [HttpGet]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         public async Task<IActionResult> GetAllUsers(string name)
         {
             var user = await _authenticationHelper.GetAllUsers(name);

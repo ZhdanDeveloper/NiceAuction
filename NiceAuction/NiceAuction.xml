@@ -116,6 +116,12 @@
             </summary>
             <response code="200">products received successfully</response> 
         </member>
+        <member name="M:NiceAuction.Controllers.ProductsController.GetCurrentUserProducts">
+            <summary>
+            Receiving all products
+            </summary>
+            <response code="200">products received successfully</response> 
+        </member>
         <member name="M:NiceAuction.Controllers.ProductsController.GetById(System.Int32)">
             <summary>
             receiving product by ID
@@ -181,10 +187,12 @@
         </member>
         <member name="M:NiceAuction.Controllers.UsersController.GetAllUsers(System.String)">
             <summary>
-            getting all users or users that name conains argument name
+            getting all users or users that name conains argument name (for admins)
             </summary>
             <param name="name">user name</param>
             <response code="200">users got successfully</response>
+            <response code="401">unothirized</response>
+            <response code="403">not enough rights</response>
         </member>
         <member name="M:NiceAuction.Controllers.UsersController.GetCurrentUser">
             <summary>
