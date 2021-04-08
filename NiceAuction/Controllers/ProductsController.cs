@@ -46,7 +46,7 @@ namespace NiceAuction.Controllers
         /// Receiving all products
         /// </summary>
         /// <response code="200">products received successfully</response> 
-        [AllowAnonymous]
+         
         [HttpGet("my")]
         public IActionResult GetCurrentUserProducts()
         {
