@@ -10,7 +10,7 @@ namespace BLL.Interfaces
     public interface IProductService 
     {
         IEnumerable<ReadProductDTO> GetAll();
-        IEnumerable<ReadProductDTO> GetProductsOfCurrentUser(string userId);
+        IEnumerable<ReadProductDTO> GetProductsOfCurrentUser(string userId, string productName = null);
         Task<ReadProductDTO> GetByIdAsync(int id);
         Task<ReadProductDTO> AddAsync(CreateProductDTO model);
         Task<string> UpdateAsync(UpdateProductDTO model, int id);

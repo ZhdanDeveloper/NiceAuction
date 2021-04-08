@@ -116,11 +116,11 @@
             </summary>
             <response code="200">products received successfully</response> 
         </member>
-        <member name="M:NiceAuction.Controllers.ProductsController.GetCurrentUserProducts">
+        <member name="M:NiceAuction.Controllers.ProductsController.GetCurrentUserProducts(System.String)">
             <summary>
-            Receiving all products
+            Receiving all products of current user
             </summary>
-            <response code="200">products received successfully</response> 
+            <response code="200">products received successfully</response>     
         </member>
         <member name="M:NiceAuction.Controllers.ProductsController.GetById(System.Int32)">
             <summary>

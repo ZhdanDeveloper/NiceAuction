@@ -43,14 +43,13 @@ namespace NiceAuction.Controllers
         }
 
         /// <summary>
-        /// Receiving all products
+        /// Receiving all products of current user
         /// </summary>
-        /// <response code="200">products received successfully</response> 
-         
+        /// <response code="200">products received successfully</response>     
         [HttpGet("my")]
-        public IActionResult GetCurrentUserProducts()
+        public IActionResult GetCurrentUserProducts(string productName)
         {
-            return Ok(_productService.GetProductsOfCurrentUser(_userManager.GetUserId(User)));
+            return Ok(_productService.GetProductsOfCurrentUser(_userManager.GetUserId(User), productName));
         }
 
         /// <summary>

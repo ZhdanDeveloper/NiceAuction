@@ -140,8 +140,12 @@ namespace BLL.Services
         /// <summary>
         /// this method returns all products of current user from the database
         /// </summary>
-        public IEnumerable<ReadProductDTO> GetProductsOfCurrentUser(string userId)
+        public IEnumerable<ReadProductDTO> GetProductsOfCurrentUser(string userId, string productName = null)
         {
+            if (productName != null)
+            {
+                return _mapper.Map<List<ReadProductDTO>>(_productRepository.FindAllWithDetails().Where(x => x.UserId == userId && x.Name.Contains(productName)));
+            }
             return _mapper.Map<List<ReadProductDTO>>(_productRepository.FindAllWithDetails().Where(x=>x.UserId == userId));
         }
 
