@@ -13,8 +13,8 @@ namespace NiceAuction.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly AuthenticationHelper _authenticationHelper;
-        public UsersController(AuthenticationHelper authenticationHelper)
+        private readonly UserHelper _authenticationHelper;
+        public UsersController(UserHelper authenticationHelper)
         {
             _authenticationHelper = authenticationHelper;
         }

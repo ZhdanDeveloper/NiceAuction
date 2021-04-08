@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 
 namespace NiceAuction
 {
-    public class AuthenticationHelper
+    public class UserHelper
     {
 
         private readonly UserManager<User> _userManager;
@@ -27,7 +27,7 @@ namespace NiceAuction
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
         private readonly IUserRepository _userRepository;
-        public AuthenticationHelper(UserManager<User> userManager, SignInManager<User> signInManager, IConfiguration configuration, IMapper mapper, IUserRepository userRepository, IOrderService orderService)
+        public UserHelper(UserManager<User> userManager, SignInManager<User> signInManager, IConfiguration configuration, IMapper mapper, IUserRepository userRepository, IOrderService orderService)
         {
             _userManager = userManager;
             _signInManager = signInManager;

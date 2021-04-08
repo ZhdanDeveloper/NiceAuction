@@ -44,7 +44,7 @@ namespace NiceAuction
 
             services.AddServices();
             services.AddAutoMapper();
-            services.AddTransient<AuthenticationHelper>();
+            services.AddTransient<UserHelper>();
 
             services.AddSwaggerGen(s =>
             {
